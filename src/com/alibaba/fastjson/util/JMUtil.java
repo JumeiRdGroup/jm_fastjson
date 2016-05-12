@@ -9,7 +9,7 @@ import com.alibaba.fastjson.parser.JSONToken;
  * FileName：JMUtil.java
  * Description：
  * History：
- * 1.0 cdyf 2016-4-23 Create
+ * 1.0 denverhan 2016-4-23 Create
  */
 
 public class JMUtil

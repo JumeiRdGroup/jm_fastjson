@@ -3,6 +3,7 @@ package com.alibaba.fastjson.parser.deserializer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public abstract class FieldDeserializer {
                 }
             }
         } catch (Exception e) {
-            throw new JSONException("set property error, " + fieldInfo.name, e);
+            throw new JSONException("set property error, " + fieldInfo.name+ ", alias:" + Arrays.toString(fieldInfo.alias), e);
         }
     }
 }

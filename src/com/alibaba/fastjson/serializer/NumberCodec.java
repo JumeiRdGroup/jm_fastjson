@@ -105,7 +105,7 @@ public class NumberCodec implements ObjectSerializer, ObjectDeserializer {
     }
     
     @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName) {
+    public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, Object [] alias) {
         final JSONLexer lexer = parser.lexer;
         int token = lexer.token();
         if (token == JSONToken.LITERAL_INT) {

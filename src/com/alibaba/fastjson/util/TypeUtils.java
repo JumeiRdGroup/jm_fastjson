@@ -863,7 +863,7 @@ public class TypeUtils {
                         }
 
                         TypeUtils.setAccessible(clazz, method, modifiers);
-                        fieldInfoMap.put(propertyName, new FieldInfo(propertyName, method, null, clazz, null, ordinal,
+                        fieldInfoMap.put(propertyName, new FieldInfo(propertyName, annotation.alias(), method, null, clazz, null, ordinal,
                                                                      serialzeFeatures, annotation, null, true));
                         continue;
                     }
@@ -879,6 +879,7 @@ public class TypeUtils {
                     char c3 = methodName.charAt(3);
 
                     String propertyName;
+                    String alias[]=new String[0];
                     if (Character.isUpperCase(c3)) {
                         if (compatibleWithJavaBean) {
                             propertyName = decapitalize(methodName.substring(3));
@@ -909,6 +910,7 @@ public class TypeUtils {
                                 continue;
                             }
 
+                            alias = fieldAnnotation.alias();
                             ordinal = fieldAnnotation.ordinal();
                             serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
 
@@ -934,7 +936,7 @@ public class TypeUtils {
 
                     TypeUtils.setAccessible(clazz, method, modifiers);
                     fieldInfoMap.put(propertyName,
-                                     new FieldInfo(propertyName, method, field, clazz, null, ordinal, serialzeFeatures,
+                                     new FieldInfo(propertyName,alias, method, field, clazz, null, ordinal, serialzeFeatures,
                                                    annotation, fieldAnnotation, fieldGenericSupport));
                 }
 
@@ -946,6 +948,7 @@ public class TypeUtils {
                     char c2 = methodName.charAt(2);
 
                     String propertyName;
+                    String alias[]=new String[0];
                     if (Character.isUpperCase(c2)) {
                         if (compatibleWithJavaBean) {
                             propertyName = decapitalize(methodName.substring(2));
@@ -976,6 +979,7 @@ public class TypeUtils {
                             }
 
                             ordinal = fieldAnnotation.ordinal();
+                            alias = fieldAnnotation.alias();
                             serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
 
                             if (fieldAnnotation.name().length() != 0) {
@@ -1001,7 +1005,7 @@ public class TypeUtils {
                     TypeUtils.setAccessible(clazz, field, modifiers);
                     TypeUtils.setAccessible(clazz, method, modifiers);
                     fieldInfoMap.put(propertyName,
-                                     new FieldInfo(propertyName, method, field, clazz, null, ordinal, serialzeFeatures,
+                                     new FieldInfo(propertyName, alias, method, field, clazz, null, ordinal, serialzeFeatures,
                                                    annotation, fieldAnnotation, fieldGenericSupport));
                 }
             }
@@ -1017,6 +1021,7 @@ public class TypeUtils {
 
             int ordinal = 0, serialzeFeatures = 0;
             String propertyName = field.getName();
+            String alias[]=new String[0];
             if (fieldAnnotation != null) {
                 if (!fieldAnnotation.serialize()) {
                     continue;
@@ -1027,6 +1032,9 @@ public class TypeUtils {
                 
                 if (fieldAnnotation.name().length() != 0) {
                     propertyName = fieldAnnotation.name();
+                }
+                if (fieldAnnotation.alias() != null && fieldAnnotation.alias().length != 0) {
+                    alias = fieldAnnotation.alias();
                 }
             }
 
@@ -1041,6 +1049,7 @@ public class TypeUtils {
                 TypeUtils.setAccessible(clazz, field, modifiers);
                 fieldInfoMap.put(propertyName, //
                                  new FieldInfo(propertyName, //
+                                		 alias,
                                                null, //
                                                field, //
                                                clazz, //

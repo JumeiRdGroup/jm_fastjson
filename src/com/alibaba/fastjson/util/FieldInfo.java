@@ -10,12 +10,16 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class FieldInfo implements Comparable<FieldInfo> {
 
     public final String     name;
+    public final String  []   alias;
     public final Method     method;
     public final Field      field;
 
@@ -28,14 +32,18 @@ public class FieldInfo implements Comparable<FieldInfo> {
     public final Class<?>   declaringClass;
     public final boolean    getOnly;
 
+    
     private final JSONField fieldAnnotation;
     private final JSONField methodAnnotation;
 
     public final char[]     name_chars;
+    public final List<char []>  alias_chars;
 
     public final boolean    isEnum;
 
+
     public FieldInfo(String name, // 
+    					String [] alias,
                      Class<?> declaringClass, // 
                      Class<?> fieldClass, // 
                      Type fieldType, // 
@@ -43,6 +51,7 @@ public class FieldInfo implements Comparable<FieldInfo> {
                      int ordinal, // 
                      int serialzeFeatures){
         this.name = name;
+        this.alias = alias;
         this.declaringClass = declaringClass;
         this.fieldClass = fieldClass;
         this.fieldType = fieldType;
@@ -71,9 +80,32 @@ public class FieldInfo implements Comparable<FieldInfo> {
         name_chars[0] = '"';
         name_chars[nameLen + 1] = '"';
         name_chars[nameLen + 2] = ':';
+        
+        if(alias != null && alias.length > 0)
+        {
+        	alias_chars = new LinkedList<>();
+        	for(String key: alias)
+        	{
+        		if(key == null || key.length() == 0)
+        			continue;
+        		
+        		int keyLen = key.length();
+        		char [] buf = new char[keyLen + 3];
+        		key.getChars(0, key.length(), buf, 1);
+        		buf[0] = '"';
+        		buf[keyLen + 1] = '"';
+        		buf[keyLen + 2] = ':';
+        		alias_chars.add(buf);
+        	}
+        }
+        else
+        {
+        	alias_chars = null;
+        }
     }
 
     public FieldInfo(String name, // 
+    					String [] alias,
                      Method method, // 
                      Field field, // 
                      Class<?> clazz, // 
@@ -84,6 +116,7 @@ public class FieldInfo implements Comparable<FieldInfo> {
                      JSONField fieldAnnotation, //
                      boolean fieldGenericSupport){
         this.name = name;
+        this.alias= alias;
         this.method = method;
         this.field = field;
         this.ordinal = ordinal;
@@ -105,6 +138,29 @@ public class FieldInfo implements Comparable<FieldInfo> {
         name_chars[0] = '"';
         name_chars[nameLen + 1] = '"';
         name_chars[nameLen + 2] = ':';
+        
+        //dupcode
+        if(alias != null && alias.length > 0)
+        {
+        	alias_chars = new LinkedList<>();
+        	for(String key: alias)
+        	{
+        		if(key == null || key.length() == 0)
+        			continue;
+        		
+        		int keyLen = key.length();
+        		char [] buf = new char[keyLen + 3];
+        		key.getChars(0, key.length(), buf, 1);
+        		buf[0] = '"';
+        		buf[keyLen + 1] = '"';
+        		buf[keyLen + 2] = ':';
+        		alias_chars.add(buf);
+        	}
+        }
+        else
+        {
+        	alias_chars = null;
+        }
         
         Type fieldType;
         Class<?> fieldClass;
@@ -268,7 +324,7 @@ public class FieldInfo implements Comparable<FieldInfo> {
     }
 
     public String toString() {
-        return this.name;
+        return this.name + (alias == null || alias.length == 0 ? "":  Arrays.toString(alias));
     }
 
     public int compareTo(FieldInfo o) {
@@ -280,6 +336,7 @@ public class FieldInfo implements Comparable<FieldInfo> {
             return 1;
         }
 
+        //TODO:这里排序仅仅考虑name字段,暂不考虑alias字段. denverhan 20160512
         return this.name.compareTo(o.name);
     }
     

@@ -57,7 +57,7 @@ class ListTypeFieldDeserializer extends FieldDeserializer {
 
         ParseContext context = parser.contex;
 
-        parser.setContext(context, object, fieldInfo.name);
+        parser.setContext(context, object, fieldInfo.name, fieldInfo.alias);
         parseArray(parser, objectType, list);
         parser.setContext(context);
         
@@ -140,7 +140,7 @@ class ListTypeFieldDeserializer extends FieldDeserializer {
                 break;
             }
 
-            Object val = itemTypeDeser.deserialze(parser, itemType, i);
+            Object val = itemTypeDeser.deserialze(parser, itemType, i, null);
             array.add(val);
 
             parser.checkListResolve(array);

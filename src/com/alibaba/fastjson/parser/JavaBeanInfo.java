@@ -63,6 +63,7 @@ class JavaBeanInfo {
             for (int i = 0; i < orders.length; ++i) {
                 boolean got = false;
                 for (int j = 0; j < sortedFields.length; ++j) {
+                	//TODO:这里排序仅仅考虑name字段,暂不考虑alias字段. denverhan 20160512
                     if (sortedFields[j].name.equals(orders[i])) {
                         got = true;
                         break;
@@ -145,6 +146,19 @@ class JavaBeanInfo {
                     }
     
                     return false;
+                }
+                
+                if(field.alias == null)
+                	continue;
+                
+                for(String alias: field.alias)
+                {
+                	  if (item.name.equals(alias)) {
+                          if (item.getOnly && !field.getOnly) {
+                              continue;
+                          }
+                          return false;
+                      }
                 }
             }
         }
@@ -243,6 +257,7 @@ class JavaBeanInfo {
                     final int ordinal = fieldAnnotation.ordinal();
                     final int serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
                     FieldInfo fieldInfo = new FieldInfo(fieldAnnotation.name(), //
+                    		fieldAnnotation.alias(),
                                                         clazz, //
                                                         fieldClass, //
                                                         fieldType, //
@@ -311,6 +326,7 @@ class JavaBeanInfo {
                     final int ordinal = fieldAnnotation.ordinal();
                     final int serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
                     FieldInfo fieldInfo = new FieldInfo(fieldAnnotation.name() //
+                    		,fieldAnnotation.alias()
                                                         , clazz //
                                                         , fieldClass //
                                                         , fieldType //
@@ -381,6 +397,7 @@ class JavaBeanInfo {
                         String propertyName = annotation.name();
                         addField(fieldList,
                                  new FieldInfo(propertyName, //
+                                		 annotation.alias(),
                                                method, //
                                                null, //
                                                clazz, //
@@ -403,6 +420,7 @@ class JavaBeanInfo {
                 char c3 = methodName.charAt(3);
 
                 String propertyName;
+                String [] alias = new String [0];
                 if (Character.isUpperCase(c3)) {
                     if (TypeUtils.compatibleWithJavaBean) {
                         propertyName = TypeUtils.decapitalize(methodName.substring(3));
@@ -433,10 +451,11 @@ class JavaBeanInfo {
                         ordinal = fieldAnnotation.ordinal();
                         serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
 
-                        if (fieldAnnotation.name().length() != 0) {
+                        if (fieldAnnotation.name().length() != 0 || (fieldAnnotation.alias() != null && fieldAnnotation.alias() .length != 0 ) ) {
                             propertyName = fieldAnnotation.name();
+                            alias = fieldAnnotation.alias();
                             addField(fieldList, //
-                                     new FieldInfo(propertyName, method, field, clazz, type, //
+                                     new FieldInfo(propertyName, alias, method, field, clazz, type, //
                                                    ordinal, serialzeFeatures, annotation, fieldAnnotation,
                                                    fieldGenericSupport), //
                                      fieldOnly);
@@ -446,7 +465,7 @@ class JavaBeanInfo {
 
                 }
                 addField(fieldList, //
-                         new FieldInfo(propertyName, method, null, clazz, type, ordinal, serialzeFeatures, annotation,
+                         new FieldInfo(propertyName, alias,method, null, clazz, type, ordinal, serialzeFeatures, annotation,
                                        null, fieldGenericSupport), //
                          fieldOnly);
                 TypeUtils.setAccessible(clazz, method, classModifiers);
@@ -462,6 +481,16 @@ class JavaBeanInfo {
                     contains = true;
                     continue;
                 }
+                if(item.alias != null&& item.alias.length > 0)
+                {
+	                for(String alias: item.alias)
+	                {
+	                	  if (alias.equals(fieldName)) {
+	                          contains = true;
+	                          break;
+	                      }
+	                }
+                }
             }
 
             if (contains) {
@@ -470,7 +499,7 @@ class JavaBeanInfo {
 
             int ordinal = 0, serialzeFeatures = 0;
             String propertyName = fieldName;
-
+            String [] alias = new String [0];
             JSONField fieldAnnotation = jsonFieldSupport ? field.getAnnotation(JSONField.class) : null;
 
             if (fieldAnnotation != null) {
@@ -480,10 +509,14 @@ class JavaBeanInfo {
                 if (fieldAnnotation.name().length() != 0) {
                     propertyName = fieldAnnotation.name();
                 }
+                if (fieldAnnotation.alias().length != 0) {
+                	alias = fieldAnnotation.alias();
+                }
             }
             TypeUtils.setAccessible(clazz, field, classModifiers);
             addField(fieldList, //
                      new FieldInfo(propertyName, //
+                    		 alias,
                                    null, //
                                    field, //
                                    clazz, //
@@ -519,14 +552,14 @@ class JavaBeanInfo {
     
                         JSONField annotation = jsonFieldSupport ? method.getAnnotation(JSONField.class) : null;
                         String annotationName;
-                        
+                        String [] alias =annotation.alias().length > 0 ?annotation.alias() : new String [0];
                         propertyName = annotation != null //
                                        && (annotationName = annotation.name()).length() > 0 //
                                            ? annotationName //
                                            : Character.toLowerCase(methodName.charAt(3)) + methodName.substring(4);
     
                         addField(fieldList, //
-                                 new FieldInfo(propertyName, method, null, clazz, type, 0, 0, annotation, null,
+                                 new FieldInfo(propertyName,alias, method, null, clazz, type, 0, 0, annotation, null,
                                                fieldGenericSupport), //
                                  fieldOnly);
                         TypeUtils.setAccessible(clazz, method, classModifiers);

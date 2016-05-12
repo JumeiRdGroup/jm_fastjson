@@ -7,7 +7,7 @@
  * Description：
  * 
  * History：
- * 1.0 cdyf 2015-11-13 Create
+ * 1.0 denverhan 2015-11-13 Create
  */
 public class KMPAlgorithm {
 

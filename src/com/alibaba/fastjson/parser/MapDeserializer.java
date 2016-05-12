@@ -24,7 +24,7 @@ class MapDeserializer implements ObjectDeserializer {
     public static MapDeserializer instance = new MapDeserializer();
     
     @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object [] alias) {
         if (type == JSONObject.class && parser.fieldTypeResolver == null) {
             return (T) parser.parseObject();
         }
@@ -40,19 +40,19 @@ class MapDeserializer implements ObjectDeserializer {
         ParseContext context = parser.contex;
 
         try {
-            parser.setContext(context, map, fieldName);
+            parser.setContext(context, map, fieldName, alias);
             if (type instanceof ParameterizedType) {
                 ParameterizedType parameterizedType = (ParameterizedType) type;
                 Type keyType = parameterizedType.getActualTypeArguments()[0];
                 Type valueType = parameterizedType.getActualTypeArguments()[1];
 
                 if (String.class == keyType) {
-                    return (T) parseMap(parser, (Map<String, Object>) map, valueType, fieldName);
+                    return (T) parseMap(parser, (Map<String, Object>) map, valueType, fieldName, alias);
                 } else {
                     return (T) parseMap(parser, (Map<Object, Object>) map, keyType, valueType, fieldName);
                 }
             } else {
-                return (T) parser.parseObject(map, fieldName);
+                return (T) parser.parseObject(map, fieldName, alias);
             }
         } finally {
             parser.setContext(context);
@@ -60,7 +60,7 @@ class MapDeserializer implements ObjectDeserializer {
     }
     
     @SuppressWarnings("rawtypes")
-    public static Map parseMap(DefaultJSONParser parser, Map<String, Object> map, Type valueType, Object fieldName) {
+    public static Map parseMap(DefaultJSONParser parser, Map<String, Object> map, Type valueType, Object fieldName, Object [] alias) {
         JSONLexer lexer = parser.lexer;
 
         if (lexer.token != JSONToken.LBRACE) {
@@ -146,7 +146,7 @@ class MapDeserializer implements ObjectDeserializer {
                         parser.popContext();
                     }
 
-                    return (Map) deserializer.deserialze(parser, clazz, fieldName);
+                    return (Map) deserializer.deserialze(parser, clazz, fieldName, alias);
                 }
 
                 Object value;
@@ -157,12 +157,12 @@ class MapDeserializer implements ObjectDeserializer {
                     value = null;
                     lexer.nextToken();
                 } else {
-                    value = parser.parseObject(valueType, key);
+                    value = parser.parseObject(valueType, key, alias);
                 }
 
                 map.put(key, value);
                 parser.checkMapResolve(map, key);
-                parser.setContext(context, value, key);                
+                parser.setContext(context, value, key, alias);                
 
                 final int tok = lexer.token;
                 if (tok == JSONToken.EOF || tok == JSONToken.RBRACKET) {
@@ -253,7 +253,7 @@ class MapDeserializer implements ObjectDeserializer {
                     lexer.nextToken();
                 }
 
-                Object key = keyDeserializer.deserialze(parser, keyType, null);
+                Object key = keyDeserializer.deserialze(parser, keyType, null, null);
 
                 if (lexer.token != JSONToken.COLON) {
                     throw new JSONException("syntax error, expect :, actual " + lexer.token);
@@ -261,7 +261,7 @@ class MapDeserializer implements ObjectDeserializer {
 
                 lexer.nextToken();
 
-                Object value = valueDeserializer.deserialze(parser, valueType, key);
+                Object value = valueDeserializer.deserialze(parser, valueType, key, null);
                 parser.checkMapResolve(map, key);
                 
                 map.put(key, value);

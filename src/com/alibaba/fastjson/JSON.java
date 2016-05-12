@@ -105,7 +105,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         }
 
         DefaultJSONParser parser = new DefaultJSONParser(text, ParserConfig.global, features);
-        Object value = parser.parse(null);
+        Object value = parser.parse(null, null);
 
         parser.handleResovleTask(value);
 
@@ -541,6 +541,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
                 Object value = field.get(javaObject);
                 Object jsonValue = toJSON(value);
 
+                //序列化的key以name为准,不考虑alias. denverhan 20160512
                 json.put(field.name, jsonValue);
             }
 

@@ -7,10 +7,12 @@ public class ParseContext {
     public Object             object;
     public final ParseContext parent;
     public final Object       fieldName;
+    public final Object []      fieldAlias;
     public Type               type;
 
-    public ParseContext(ParseContext parent, Object object, Object fieldName){
+    public ParseContext(ParseContext parent, Object object, Object fieldName, Object [] alias){
         this.parent = parent;
+        fieldAlias = alias;
         this.object = object;
         this.fieldName = fieldName;
     }

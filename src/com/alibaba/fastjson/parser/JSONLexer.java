@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -1791,7 +1792,15 @@ public final class JSONLexer {
         return true;
     }
 
+    /**
+     * 
+     * @param chars
+     * @return char是否和当前游标文字字符匹配上.
+     */
     private boolean charArrayCompare(char[] chars) {
+    	if(chars == null)
+    		return false;
+    	
         final int destLen = chars.length;
         if (destLen + bp > len) {
             return false;
@@ -1806,14 +1815,33 @@ public final class JSONLexer {
         return true;
     }
 
-    public int scanFieldInt(char[] fieldName) {
+    public int scanFieldInt(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
 
+        //name比较失败了
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return 0;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		return 0;
+            }
         }
-
+        
         int offset = fieldName.length;
         char chLocal = charAt(bp + (offset++));
 
@@ -1925,13 +1953,32 @@ public final class JSONLexer {
         return value;
     }
 
-    public long scanFieldLong(char[] fieldName) {
+    public long scanFieldLong(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
 
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return 0;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		 return 0;
+            }
         }
+  
 
         int offset = fieldName.length;
         // char chLocal = charAt(bp + (offset++));
@@ -2059,13 +2106,32 @@ public final class JSONLexer {
         return value;
     }
 
-    public String scanFieldString(char[] fieldName) {
+    public String scanFieldString(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
 
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return stringDefaultValue();
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		 return stringDefaultValue();
+            }
         }
+        
 
         // int index = bp + fieldName.length;
 
@@ -2197,13 +2263,32 @@ public final class JSONLexer {
         return strVal;
     }
 
-    public boolean scanFieldBoolean(char[] fieldName) {
+    public boolean scanFieldBoolean(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
 
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return false;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		 return false;
+            }
         }
+
 
         int offset = fieldName.length;
 
@@ -2290,12 +2375,31 @@ public final class JSONLexer {
         return value;
     }
 
-    public final float scanFieldFloat(char[] fieldName) {
+    public final float scanFieldFloat(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
 
+
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return 0;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		 return 0;
+            }
         }
 
         int offset = fieldName.length;
@@ -2377,12 +2481,31 @@ public final class JSONLexer {
         return value;
     }
 
-    public final double scanFieldDouble(char[] fieldName) {
+    public final double scanFieldDouble(char[] fieldName, List<char []> alias) {
         matchStat = UNKNOWN;
-
+        
+        //name比较失败了
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return 0;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		return 0;
+            }
         }
 
         int offset = fieldName.length;
@@ -2478,14 +2601,33 @@ public final class JSONLexer {
         return value;
     }
 
-    public String scanFieldSymbol(char[] fieldName, final SymbolTable symbolTable) {
+    public String scanFieldSymbol(char[] fieldName, final SymbolTable symbolTable, List<char []> alias) {
         matchStat = UNKNOWN;
 
+        //name比较失败了
+        boolean aliasMatch = false;
         if (!charArrayCompare(fieldName)) {
-            matchStat = NOT_MATCH_NAME;
-            return null;
+        	if(alias != null && alias.size() > 0)
+        	{
+        		for(char [] buf: alias)
+        		{
+        			//alias匹配成功 denverhan
+        			if(charArrayCompare(buf))
+        			{
+        				fieldName = buf;
+        				aliasMatch = true;
+        				break;
+        			}
+        		}
+        	}
+        	
+        	if(!aliasMatch)
+        	{
+        		matchStat = NOT_MATCH_NAME;
+        		return null;
+            }
         }
-
+  
         int offset = fieldName.length;
         char chLocal = charAt(bp + (offset++));
 

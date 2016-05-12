@@ -17,7 +17,7 @@ public class EnumDeserializer implements ObjectDeserializer {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object [] alias) {
         try {
             Object value;
             final JSONLexer lexer = parser.lexer;
