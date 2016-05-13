@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -2195,7 +2194,7 @@ public final class JSONLexer
 		return true;
 	}
 
-	public int scanFieldInt(char[] fieldName, List<char[]> alias)
+	public int scanFieldInt(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
@@ -2203,7 +2202,7 @@ public final class JSONLexer
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -2362,14 +2361,14 @@ public final class JSONLexer
 		return value;
 	}
 
-	public long scanFieldLong(char[] fieldName, List<char[]> alias)
+	public long scanFieldLong(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -2544,14 +2543,14 @@ public final class JSONLexer
 		return value;
 	}
 
-	public String scanFieldString(char[] fieldName, List<char[]> alias)
+	public String scanFieldString(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -2742,14 +2741,14 @@ public final class JSONLexer
 		return strVal;
 	}
 
-	public boolean scanFieldBoolean(char[] fieldName, List<char[]> alias)
+	public boolean scanFieldBoolean(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -2878,7 +2877,7 @@ public final class JSONLexer
 		return value;
 	}
 
-	public final float scanFieldFloat(char[] fieldName, List<char[]> alias)
+	public final float scanFieldFloat(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
@@ -2886,7 +2885,7 @@ public final class JSONLexer
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -3014,7 +3013,7 @@ public final class JSONLexer
 		return value;
 	}
 
-	public final double scanFieldDouble(char[] fieldName, List<char[]> alias)
+	public final double scanFieldDouble(char[] fieldName, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
@@ -3022,7 +3021,7 @@ public final class JSONLexer
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{
@@ -3170,7 +3169,7 @@ public final class JSONLexer
 		return value;
 	}
 
-	public String scanFieldSymbol(char[] fieldName, final SymbolTable symbolTable, List<char[]> alias)
+	public String scanFieldSymbol(char[] fieldName, final SymbolTable symbolTable, char[][] alias)
 	{
 		matchStat = UNKNOWN;
 
@@ -3178,7 +3177,7 @@ public final class JSONLexer
 		boolean aliasMatch = false;
 		if (!charArrayCompare(fieldName))
 		{
-			if (alias != null && alias.size() > 0)
+			if (alias != null && alias.length > 0)
 			{
 				for (char[] buf : alias)
 				{

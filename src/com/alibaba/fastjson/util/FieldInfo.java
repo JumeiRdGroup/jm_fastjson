@@ -11,36 +11,34 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class FieldInfo implements Comparable<FieldInfo>
 {
 
-	public final String			name;
-	public final String[]		alias;
-	public final Method			method;
-	public final Field			field;
+	public final String		name;
+	public final String[]	alias;
+	public final Method		method;
+	public final Field		field;
 
-	public final boolean		fieldAccess;
-	public final boolean		fieldTransient;
+	public final boolean	fieldAccess;
+	public final boolean	fieldTransient;
 
-	private int					ordinal	= 0;
-	public final Class<?>		fieldClass;
-	public final Type			fieldType;
-	public final Class<?>		declaringClass;
-	public final boolean		getOnly;
+	private int				ordinal	= 0;
+	public final Class<?>	fieldClass;
+	public final Type		fieldType;
+	public final Class<?>	declaringClass;
+	public final boolean	getOnly;
 
 
-	private final JSONField		fieldAnnotation;
-	private final JSONField		methodAnnotation;
+	private final JSONField	fieldAnnotation;
+	private final JSONField	methodAnnotation;
 
-	public final char[]			name_chars;
-	public final List<char[]>	alias_chars;
+	public final char[]		name_chars;
+	public final char[][]	alias_chars;
 
-	public final boolean		isEnum;
+	public final boolean	isEnum;
 
 
 	public FieldInfo(String name, //
@@ -87,7 +85,8 @@ public class FieldInfo implements Comparable<FieldInfo>
 
 		if (alias != null && alias.length > 0)
 		{
-			alias_chars = new LinkedList<>();
+			alias_chars = new char[alias.length][];
+			int i = 0;
 			for (String key : alias)
 			{
 				if (key == null || key.length() == 0)
@@ -99,7 +98,7 @@ public class FieldInfo implements Comparable<FieldInfo>
 				buf[0] = '"';
 				buf[keyLen + 1] = '"';
 				buf[keyLen + 2] = ':';
-				alias_chars.add(buf);
+				alias_chars[i++]=buf;
 			}
 		}
 		else
@@ -149,7 +148,8 @@ public class FieldInfo implements Comparable<FieldInfo>
 		// dupcode
 		if (alias != null && alias.length > 0)
 		{
-			alias_chars = new LinkedList<>();
+			alias_chars = new char[alias.length][];
+			int i = 0;
 			for (String key : alias)
 			{
 				if (key == null || key.length() == 0)
@@ -161,7 +161,7 @@ public class FieldInfo implements Comparable<FieldInfo>
 				buf[0] = '"';
 				buf[keyLen + 1] = '"';
 				buf[keyLen + 2] = ':';
-				alias_chars.add(buf);
+				alias_chars[i++]=buf;
 			}
 		}
 		else
