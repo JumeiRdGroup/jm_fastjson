@@ -15,6 +15,7 @@ import com.alibaba.fastjson.util.JMUtil;
 public class TestDriver
 {
 
+	public static String		jmimg		= "{\"1080\":\"http://images2.jumei.com/user_avatar/092/909/92909501-200.jpg?1458828594\",\"1280\":\"http://images2.jumei.com/user_avatar/092/909/92909501-200.jpg?1458828594\",\"640\":\"http://images2.jumei.com/user_avatar/092/909/92909501-100.jpg?1458828647\",\"720\":\"http://images2.jumei.com/user_avatar/092/909/92909501-100.jpg?1458828647\"}";
 	public static final String	testCase	= "{\"int_alias_test\":22,\"denver\":21, \"data\":{\"value\":\"avlua\"} }";
 
 	public static void main(String[] args)
@@ -23,8 +24,7 @@ public class TestDriver
 		System.out.println(JSON.toJSONString(rsp));
 
 
-		String s = JMUtil.parseImageJson(Jmimg.a);
+		String s = JMUtil.parseImageJson(jmimg);
 		System.out.println("s:" + s);
-
 	}
 }

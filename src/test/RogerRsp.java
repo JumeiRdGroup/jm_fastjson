@@ -25,7 +25,8 @@ public class RogerRsp<T extends RogerRsp<T>>
 	
 	public static class Data
 	{
-		public String value;
+		@JSONField(name="va", alias= {"value", "kabc"})
+		public String mValue;
 	}
 	
 }
