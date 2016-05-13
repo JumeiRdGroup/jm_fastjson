@@ -1,0 +1,3 @@
+开发完成时间:2016.4.23.
+实现功能:通过JMIMG注解标记字段指示fastjson库按照手机分辨率自动选择最匹配的图片url,手机默认分辨率在JSON.SCREEN_WIDTH中,app初始化时可根据当前手机分辨率进行重新设置.
+开发人员:han_lian@foxmail.com
