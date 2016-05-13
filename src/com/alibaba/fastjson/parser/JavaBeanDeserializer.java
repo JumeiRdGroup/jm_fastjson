@@ -693,9 +693,21 @@ public class JavaBeanDeserializer implements ObjectDeserializer {
                 FieldInfo fieldInfo = fieldDeser.fieldInfo;
                 Class<?> fieldClass = fieldInfo.fieldClass;
                 String fieldName = fieldInfo.name;
+                String [] alias = fieldInfo.alias;
                 if (fieldName.equalsIgnoreCase(key)) {
                     fieldDeserializer = fieldDeser;
                     break;
+                }
+                
+                if(alias != null && alias.length > 0)
+                {
+                	for(String name: alias)
+                	{
+                		if (name.equalsIgnoreCase(key)) {
+                            fieldDeserializer = fieldDeser;
+                            break;
+                        }
+                	}
                 }
                 
                 if (startsWithIs //

@@ -451,9 +451,9 @@ class JavaBeanInfo {
                         ordinal = fieldAnnotation.ordinal();
                         serialzeFeatures = SerializerFeature.of(fieldAnnotation.serialzeFeatures());
 
+                        alias = fieldAnnotation.alias();
                         if (fieldAnnotation.name().length() != 0 || (fieldAnnotation.alias() != null && fieldAnnotation.alias() .length != 0 ) ) {
                             propertyName = fieldAnnotation.name();
-                            alias = fieldAnnotation.alias();
                             addField(fieldList, //
                                      new FieldInfo(propertyName, alias, method, field, clazz, type, //
                                                    ordinal, serialzeFeatures, annotation, fieldAnnotation,

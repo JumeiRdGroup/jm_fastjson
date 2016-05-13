@@ -16,9 +16,10 @@ import com.alibaba.fastjson.util.JMUtil;
 public class TestDriver
 {
 
+	public static final String	testCase	= "{\"int_alias_test\":22,\"denver\":21 }";
 	public static void main(String[] args)
 	{
-		RogerRsp rsp = JSON.parseObject(RogerRsp.testCase, RogerRsp.class);
+		RogerRsp rsp = JSON.parseObject(testCase, RogerRsp.class);
 		System.out.println(JSON.toJSONString(rsp));
 
 

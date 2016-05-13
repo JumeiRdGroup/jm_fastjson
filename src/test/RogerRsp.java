@@ -1,6 +1,5 @@
 package test;
 
-import com.alibaba.fastjson.annotation.JMIMG;
 import com.alibaba.fastjson.annotation.JSONField;
 
 
@@ -16,23 +15,12 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class RogerRsp<T extends RogerRsp<T>>
 {
 
-	public static final String	testCase	= "{\"abc\":\"denver_alias\"}";
 
-	/**
-	 * code : 0
-	 * action :
-	 * message :
-	 * data : {"gateway":"TenpayWeixinMobile","partnerSign":{"sign":
-	 * "4651e9278683fe5d6c9bd084611a0a32a920646b"
-	 * ,"timestamp":1456034466,"partnerid"
-	 * :"1216764201","noncestr":"lqaizn8b4niaasprahv357exmcvqwbzr"
-	 * ,"prepayid":"82010380001602216599176276e8fc89"
-	 * ,"package":"Sign=cft","appid"
-	 * :"wx052b13e7ea19fb29"},"order_code":"0000000000000393"}
-	 */
-
-
+	//"{\"int_alias_test\":22,\"denver\":21 }";
 	
 	@JSONField(name="message", alias= {"denver", "abc"})
-	public String				mMessage;
+	public int				mMessage;
+	@JSONField(name="Xessage_int",  alias= {"int_alias_test", "a"})
+	public int  			mInt ;
+	
 }
