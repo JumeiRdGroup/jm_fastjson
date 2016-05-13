@@ -20,312 +20,389 @@ import com.alibaba.fastjson.parser.DefaultJSONParser.ResolveTask;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
 import com.alibaba.fastjson.util.TypeUtils;
 
-class MapDeserializer implements ObjectDeserializer {
-    public static MapDeserializer instance = new MapDeserializer();
-    
-    @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object [] alias) {
-        if (type == JSONObject.class && parser.fieldTypeResolver == null) {
-            return (T) parser.parseObject();
-        }
-        
-        final JSONLexer lexer = parser.lexer;
-        if (lexer.token == JSONToken.NULL) {
-            lexer.nextToken(JSONToken.COMMA);
-            return null;
-        }
+class MapDeserializer implements ObjectDeserializer
+{
+	public static MapDeserializer	instance	= new MapDeserializer();
 
-        Map<?, ?> map = createMap(type);
+	@SuppressWarnings("unchecked")
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	{
+		if (type == JSONObject.class && parser.fieldTypeResolver == null)
+		{
+			return (T) parser.parseObject();
+		}
 
-        ParseContext context = parser.contex;
+		final JSONLexer lexer = parser.lexer;
+		if (lexer.token == JSONToken.NULL)
+		{
+			lexer.nextToken(JSONToken.COMMA);
+			return null;
+		}
 
-        try {
-            parser.setContext(context, map, fieldName, alias);
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
-                Type keyType = parameterizedType.getActualTypeArguments()[0];
-                Type valueType = parameterizedType.getActualTypeArguments()[1];
+		Map<?, ?> map = createMap(type);
 
-                if (String.class == keyType) {
-                    return (T) parseMap(parser, (Map<String, Object>) map, valueType, fieldName, alias);
-                } else {
-                    return (T) parseMap(parser, (Map<Object, Object>) map, keyType, valueType, fieldName);
-                }
-            } else {
-                return (T) parser.parseObject(map, fieldName, alias);
-            }
-        } finally {
-            parser.setContext(context);
-        }
-    }
-    
-    @SuppressWarnings("rawtypes")
-    public static Map parseMap(DefaultJSONParser parser, Map<String, Object> map, Type valueType, Object fieldName, Object [] alias) {
-        JSONLexer lexer = parser.lexer;
+		ParseContext context = parser.contex;
 
-        if (lexer.token != JSONToken.LBRACE) {
-            throw new JSONException("syntax error, expect {, actual " + lexer.token);
-        }
+		try
+		{
+			parser.setContext(context, map, fieldName, alias);
+			if (type instanceof ParameterizedType)
+			{
+				ParameterizedType parameterizedType = (ParameterizedType) type;
+				Type keyType = parameterizedType.getActualTypeArguments()[0];
+				Type valueType = parameterizedType.getActualTypeArguments()[1];
 
-        ParseContext context = parser.contex;
-        try {
-            for (;;) {
-                lexer.skipWhitespace();
-                char ch = lexer.ch;
-                if ((lexer.features & Feature.AllowArbitraryCommas.mask) != 0) {
-                    while (ch == ',') {
-                        lexer.next();
-                        lexer.skipWhitespace();
-                        ch = lexer.ch;
-                    }
-                }
+				if (String.class == keyType)
+				{
+					return (T) parseMap(parser, (Map<String, Object>) map, valueType, fieldName, alias);
+				}
+				else
+				{
+					return (T) parseMap(parser, (Map<Object, Object>) map, keyType, valueType, fieldName);
+				}
+			}
+			else
+			{
+				return (T) parser.parseObject(map, fieldName, alias);
+			}
+		}
+		finally
+		{
+			parser.setContext(context);
+		}
+	}
 
-                String key;
-                if (ch == '"') {
-                    key = lexer.scanSymbol(parser.symbolTable, '"');
-                    lexer.skipWhitespace();
-                    ch = lexer.ch;
-                    if (ch != ':') {
-                        throw new JSONException("syntax error, " + lexer.info());
-                    }
-                } else if (ch == '}') {
-                    lexer.next();
-                    lexer.sp = 0;
-                    lexer.nextToken(JSONToken.COMMA);
-                    return map;
-                } else if (ch == '\'') {
-                    if ((lexer.features & Feature.AllowSingleQuotes.mask) == 0) {
-                        throw new JSONException("syntax error, " + lexer.info());
-                    }
+	@SuppressWarnings("rawtypes")
+	public static Map parseMap(DefaultJSONParser parser, Map<String, Object> map, Type valueType, Object fieldName, Object[] alias)
+	{
+		JSONLexer lexer = parser.lexer;
 
-                    key = lexer.scanSymbol(parser.symbolTable, '\'');
-                    lexer.skipWhitespace();
-                    ch = lexer.ch;
-                    if (ch != ':') {
-                        throw new JSONException("syntax error, " + lexer.info());
-                    }
-                } else {
-                    if ((lexer.features & Feature.AllowUnQuotedFieldNames.mask) == 0) {
-                        throw new JSONException("syntax error");
-                    }
+		if (lexer.token != JSONToken.LBRACE)
+		{
+			throw new JSONException("syntax error, expect {, actual " + lexer.token);
+		}
 
-                    key = lexer.scanSymbolUnQuoted(parser.symbolTable);
-                    lexer.skipWhitespace();
-                    ch = lexer.ch;
-                    if (ch != ':') {
-                        throw new JSONException("expect ':' at " + lexer.pos + ", actual " + ch);
-                    }
-                }
+		ParseContext context = parser.contex;
+		try
+		{
+			for (;;)
+			{
+				lexer.skipWhitespace();
+				char ch = lexer.ch;
+				if ((lexer.features & Feature.AllowArbitraryCommas.mask) != 0)
+				{
+					while (ch == ',')
+					{
+						lexer.next();
+						lexer.skipWhitespace();
+						ch = lexer.ch;
+					}
+				}
 
-                lexer.next();
-                lexer.skipWhitespace();
-                ch = lexer.ch;
+				String key;
+				if (ch == '"')
+				{
+					key = lexer.scanSymbol(parser.symbolTable, '"');
+					lexer.skipWhitespace();
+					ch = lexer.ch;
+					if (ch != ':')
+					{
+						throw new JSONException("syntax error, " + lexer.info());
+					}
+				}
+				else if (ch == '}')
+				{
+					lexer.next();
+					lexer.sp = 0;
+					lexer.nextToken(JSONToken.COMMA);
+					return map;
+				}
+				else if (ch == '\'')
+				{
+					if ((lexer.features & Feature.AllowSingleQuotes.mask) == 0)
+					{
+						throw new JSONException("syntax error, " + lexer.info());
+					}
 
-                lexer.sp = 0;
+					key = lexer.scanSymbol(parser.symbolTable, '\'');
+					lexer.skipWhitespace();
+					ch = lexer.ch;
+					if (ch != ':')
+					{
+						throw new JSONException("syntax error, " + lexer.info());
+					}
+				}
+				else
+				{
+					if ((lexer.features & Feature.AllowUnQuotedFieldNames.mask) == 0)
+					{
+						throw new JSONException("syntax error");
+					}
 
-                if (key == JSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect)) {
-                    String typeName = lexer.scanSymbol(parser.symbolTable, '"');
-                    Class<?> clazz = TypeUtils.loadClass(typeName, parser.config.defaultClassLoader);
+					key = lexer.scanSymbolUnQuoted(parser.symbolTable);
+					lexer.skipWhitespace();
+					ch = lexer.ch;
+					if (ch != ':')
+					{
+						throw new JSONException("expect ':' at " + lexer.pos + ", actual " + ch);
+					}
+				}
 
-                    if (clazz == map.getClass()) {
-                        lexer.nextToken(JSONToken.COMMA);
-                        if (lexer.token == JSONToken.RBRACE) {
-                            lexer.nextToken(JSONToken.COMMA);
-                            return map;
-                        }
-                        continue;
-                    }
+				lexer.next();
+				lexer.skipWhitespace();
+				ch = lexer.ch;
 
-                    ObjectDeserializer deserializer = parser.config.getDeserializer(clazz);
+				lexer.sp = 0;
 
-                    lexer.nextToken(JSONToken.COMMA);
+				if (key == JSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
+				{
+					String typeName = lexer.scanSymbol(parser.symbolTable, '"');
+					Class<?> clazz = TypeUtils.loadClass(typeName, parser.config.defaultClassLoader);
 
-                    parser.resolveStatus = DefaultJSONParser.TypeNameRedirect;
+					if (clazz == map.getClass())
+					{
+						lexer.nextToken(JSONToken.COMMA);
+						if (lexer.token == JSONToken.RBRACE)
+						{
+							lexer.nextToken(JSONToken.COMMA);
+							return map;
+						}
+						continue;
+					}
 
-                    if (context != null && !(fieldName instanceof Integer)) {
-                        parser.popContext();
-                    }
+					ObjectDeserializer deserializer = parser.config.getDeserializer(clazz);
 
-                    return (Map) deserializer.deserialze(parser, clazz, fieldName, alias);
-                }
+					lexer.nextToken(JSONToken.COMMA);
 
-                Object value;
-                lexer.nextToken();
+					parser.resolveStatus = DefaultJSONParser.TypeNameRedirect;
 
-                parser.setContext(context);
-                if (lexer.token == JSONToken.NULL) {
-                    value = null;
-                    lexer.nextToken();
-                } else {
-                    value = parser.parseObject(valueType, key, alias);
-                }
+					if (context != null && !(fieldName instanceof Integer))
+					{
+						parser.popContext();
+					}
 
-                map.put(key, value);
-                parser.checkMapResolve(map, key);
-                parser.setContext(context, value, key, alias);                
+					return (Map) deserializer.deserialze(parser, clazz, fieldName, alias);
+				}
 
-                final int tok = lexer.token;
-                if (tok == JSONToken.EOF || tok == JSONToken.RBRACKET) {
-                    return map;
-                }
+				Object value;
+				lexer.nextToken();
 
-                if (tok == JSONToken.RBRACE) {
-                    lexer.nextToken();
-                    return map;
-                }
-            }
-        } finally {
-            parser.setContext(context);
-        }
+				parser.setContext(context);
+				if (lexer.token == JSONToken.NULL)
+				{
+					value = null;
+					lexer.nextToken();
+				}
+				else
+				{
+					value = parser.parseObject(valueType, key, alias);
+				}
 
-    }
-    
-    public static Object parseMap(DefaultJSONParser parser, Map<Object, Object> map, Type keyType, Type valueType,
-                                  Object fieldName) {
-        JSONLexer lexer = parser.lexer;
+				map.put(key, value);
+				parser.checkMapResolve(map, key);
+				parser.setContext(context, value, key, alias);
 
-        int token = lexer.token;
-        if (token != JSONToken.LBRACE && token != JSONToken.COMMA) {
-            throw new JSONException("syntax error, expect {, actual " + JSONToken.name(token));
-        }
+				final int tok = lexer.token;
+				if (tok == JSONToken.EOF || tok == JSONToken.RBRACKET)
+				{
+					return map;
+				}
 
-        ObjectDeserializer keyDeserializer = parser.config.getDeserializer(keyType);
-        ObjectDeserializer valueDeserializer = parser.config.getDeserializer(valueType);
-        lexer.nextToken();
+				if (tok == JSONToken.RBRACE)
+				{
+					lexer.nextToken();
+					return map;
+				}
+			}
+		}
+		finally
+		{
+			parser.setContext(context);
+		}
 
-        ParseContext context = parser.contex;
-        try {
-            for (;;) {
-                token = lexer.token;
-                if (token == JSONToken.RBRACE) {
-                    lexer.nextToken(JSONToken.COMMA);
-                    break;
-                }
+	}
 
-                if (token == JSONToken.LITERAL_STRING // 
-                        && lexer.isRef() //
-                        && !lexer.isEnabled(Feature.DisableSpecialKeyDetect)) {
-                    Object object = null;
+	public static Object parseMap(DefaultJSONParser parser, Map<Object, Object> map, Type keyType, Type valueType, Object fieldName)
+	{
+		JSONLexer lexer = parser.lexer;
 
-                    lexer.nextTokenWithChar(':');
-                    if (lexer.token == JSONToken.LITERAL_STRING) {
-                        String ref = lexer.stringVal();
-                        if ("..".equals(ref)) {
-                            ParseContext parentContext = context.parent;
-                            object = parentContext.object;
-                        } else if ("$".equals(ref)) {
-                            ParseContext rootContext = context;
-                            while (rootContext.parent != null) {
-                                rootContext = rootContext.parent;
-                            }
+		int token = lexer.token;
+		if (token != JSONToken.LBRACE && token != JSONToken.COMMA)
+		{
+			throw new JSONException("syntax error, expect {, actual " + JSONToken.name(token));
+		}
 
-                            object = rootContext.object;
-                        } else {
-                            parser.addResolveTask(new ResolveTask(context, ref));
-                            parser.resolveStatus = DefaultJSONParser.NeedToResolve;
-                        }
-                    } else {
-                        throw new JSONException("illegal ref, " + JSONToken.name(token));
-                    }
+		ObjectDeserializer keyDeserializer = parser.config.getDeserializer(keyType);
+		ObjectDeserializer valueDeserializer = parser.config.getDeserializer(valueType);
+		lexer.nextToken();
 
-                    lexer.nextToken(JSONToken.RBRACE);
-                    if (lexer.token != JSONToken.RBRACE) {
-                        throw new JSONException("illegal ref");
-                    }
-                    lexer.nextToken(JSONToken.COMMA);
+		ParseContext context = parser.contex;
+		try
+		{
+			for (;;)
+			{
+				token = lexer.token;
+				if (token == JSONToken.RBRACE)
+				{
+					lexer.nextToken(JSONToken.COMMA);
+					break;
+				}
 
-                    // parser.setContext(context, map, fieldName);
-                    // parser.setContext(context);
+				if (token == JSONToken.LITERAL_STRING //
+						&& lexer.isRef() //
+						&& !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
+				{
+					Object object = null;
 
-                    return object;
-                }
+					lexer.nextTokenWithChar(':');
+					if (lexer.token == JSONToken.LITERAL_STRING)
+					{
+						String ref = lexer.stringVal();
+						if ("..".equals(ref))
+						{
+							ParseContext parentContext = context.parent;
+							object = parentContext.object;
+						}
+						else if ("$".equals(ref))
+						{
+							ParseContext rootContext = context;
+							while (rootContext.parent != null)
+							{
+								rootContext = rootContext.parent;
+							}
 
-                if (map.size() == 0 //
-                    && token == JSONToken.LITERAL_STRING //
-                    && JSON.DEFAULT_TYPE_KEY.equals(lexer.stringVal()) //
-                    && !lexer.isEnabled(Feature.DisableSpecialKeyDetect)) {
-                    lexer.nextTokenWithChar(':');
-                    lexer.nextToken(JSONToken.COMMA);
-                    if (lexer.token == JSONToken.RBRACE) {
-                        lexer.nextToken();
-                        return map;
-                    }
-                    lexer.nextToken();
-                }
+							object = rootContext.object;
+						}
+						else
+						{
+							parser.addResolveTask(new ResolveTask(context, ref));
+							parser.resolveStatus = DefaultJSONParser.NeedToResolve;
+						}
+					}
+					else
+					{
+						throw new JSONException("illegal ref, " + JSONToken.name(token));
+					}
 
-                Object key = keyDeserializer.deserialze(parser, keyType, null, null);
+					lexer.nextToken(JSONToken.RBRACE);
+					if (lexer.token != JSONToken.RBRACE)
+					{
+						throw new JSONException("illegal ref");
+					}
+					lexer.nextToken(JSONToken.COMMA);
 
-                if (lexer.token != JSONToken.COLON) {
-                    throw new JSONException("syntax error, expect :, actual " + lexer.token);
-                }
+					// parser.setContext(context, map, fieldName);
+					// parser.setContext(context);
 
-                lexer.nextToken();
+					return object;
+				}
 
-                Object value = valueDeserializer.deserialze(parser, valueType, key, null);
-                parser.checkMapResolve(map, key);
-                
-                map.put(key, value);
+				if (map.size() == 0 //
+						&& token == JSONToken.LITERAL_STRING //
+						&& JSON.DEFAULT_TYPE_KEY.equals(lexer.stringVal()) //
+						&& !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
+				{
+					lexer.nextTokenWithChar(':');
+					lexer.nextToken(JSONToken.COMMA);
+					if (lexer.token == JSONToken.RBRACE)
+					{
+						lexer.nextToken();
+						return map;
+					}
+					lexer.nextToken();
+				}
 
-                if (lexer.token == JSONToken.COMMA) {
-                    lexer.nextToken();
-                }
-            }
-        } finally {
-            parser.setContext(context);
-        }
+				Object key = keyDeserializer.deserialze(parser, keyType, null, null);
 
-        return map;
-    }
+				if (lexer.token != JSONToken.COLON)
+				{
+					throw new JSONException("syntax error, expect :, actual " + lexer.token);
+				}
 
-    @SuppressWarnings({ "rawtypes" })
-    protected Map<?, ?> createMap(Type type) {
-        if (type == Properties.class) {
-            return new Properties();
-        }
+				lexer.nextToken();
 
-        if (type == Hashtable.class) {
-            return new Hashtable();
-        }
+				Object value = valueDeserializer.deserialze(parser, valueType, key, null);
+				parser.checkMapResolve(map, key);
 
-        if (type == IdentityHashMap.class) {
-            return new IdentityHashMap();
-        }
+				map.put(key, value);
 
-        if (type == SortedMap.class || type == TreeMap.class) {
-            return new TreeMap();
-        }
+				if (lexer.token == JSONToken.COMMA)
+				{
+					lexer.nextToken();
+				}
+			}
+		}
+		finally
+		{
+			parser.setContext(context);
+		}
 
-        if (type == ConcurrentMap.class || type == ConcurrentHashMap.class) {
-            return new ConcurrentHashMap();
-        }
-        
-        if (type == Map.class || type == HashMap.class) {
-            return new HashMap();
-        }
-        
-        if (type == LinkedHashMap.class) {
-            return new LinkedHashMap();
-        }
-        
-        if (type == JSONObject.class) {
-            return (Map<?, ?>) new JSONObject();
-        }
+		return map;
+	}
 
-        if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
+	@SuppressWarnings({ "rawtypes" })
+	protected Map<?, ?> createMap(Type type)
+	{
+		if (type == Properties.class)
+		{
+			return new Properties();
+		}
 
-            return createMap(parameterizedType.getRawType());
-        }
+		if (type == Hashtable.class)
+		{
+			return new Hashtable();
+		}
 
-        Class<?> clazz = (Class<?>) type;
-        if (clazz.isInterface()) {
-            throw new JSONException("unsupport type " + type);
-        }
-        
-        try {
-            return (Map<?, ?>) clazz.newInstance();
-        } catch (Exception e) {
-            throw new JSONException("unsupport type " + type, e);
-        }
-    }
+		if (type == IdentityHashMap.class)
+		{
+			return new IdentityHashMap();
+		}
+
+		if (type == SortedMap.class || type == TreeMap.class)
+		{
+			return new TreeMap();
+		}
+
+		if (type == ConcurrentMap.class || type == ConcurrentHashMap.class)
+		{
+			return new ConcurrentHashMap();
+		}
+
+		if (type == Map.class || type == HashMap.class)
+		{
+			return new HashMap();
+		}
+
+		if (type == LinkedHashMap.class)
+		{
+			return new LinkedHashMap();
+		}
+
+		if (type == JSONObject.class)
+		{
+			return (Map<?, ?>) new JSONObject();
+		}
+
+		if (type instanceof ParameterizedType)
+		{
+			ParameterizedType parameterizedType = (ParameterizedType) type;
+
+			return createMap(parameterizedType.getRawType());
+		}
+
+		Class<?> clazz = (Class<?>) type;
+		if (clazz.isInterface())
+		{
+			throw new JSONException("unsupport type " + type);
+		}
+
+		try
+		{
+			return (Map<?, ?>) clazz.newInstance();
+		}
+		catch (Exception e)
+		{
+			throw new JSONException("unsupport type " + type, e);
+		}
+	}
 }

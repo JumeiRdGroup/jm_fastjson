@@ -1,12 +1,9 @@
 /*
  * Copyright 1999-2101 Alibaba Group.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,76 +26,96 @@ import com.alibaba.fastjson.util.TypeUtils;
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
-public class BigDecimalCodec implements ObjectSerializer, ObjectDeserializer {
+public class BigDecimalCodec implements ObjectSerializer, ObjectDeserializer
+{
 
-    public final static BigDecimalCodec instance = new BigDecimalCodec();
-    
-    private BigDecimalCodec() {
-        
-    }
+	public final static BigDecimalCodec	instance	= new BigDecimalCodec();
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType) throws IOException {
-        SerializeWriter out = serializer.out;
+	private BigDecimalCodec()
+	{
 
-        if (object == null) {
-            if ((out.features & SerializerFeature.WriteNullNumberAsZero.mask) != 0) {
-                out.write('0');
-            } else {
-                out.writeNull();
-            }
-            return;
-        }
-        
-        if (object instanceof BigInteger) {
-            BigInteger val = (BigInteger) object;
-            out.write(val.toString());
-            return;
-        }
+	}
 
-        BigDecimal val = (BigDecimal) object;
-        out.write(val.toString());
+	public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType) throws IOException
+	{
+		SerializeWriter out = serializer.out;
 
-        if ((out.features & SerializerFeature.WriteClassName.mask) != 0 && fieldType != BigDecimal.class && val.scale() == 0) {
-            out.write('.');
-        }
-    }
+		if (object == null)
+		{
+			if ((out.features & SerializerFeature.WriteNullNumberAsZero.mask) != 0)
+			{
+				out.write('0');
+			}
+			else
+			{
+				out.writeNull();
+			}
+			return;
+		}
 
-    @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName,Object [] alias) {
-        final JSONLexer lexer = parser.lexer;
+		if (object instanceof BigInteger)
+		{
+			BigInteger val = (BigInteger) object;
+			out.write(val.toString());
+			return;
+		}
 
-        int token = lexer.token();
-        if (token == JSONToken.LITERAL_INT) {
-            String val = lexer.numberString();
-            lexer.nextToken(JSONToken.COMMA);
-            if (clazz == BigInteger.class) {
-                return (T) new BigInteger(val);
-            } else {
-                return (T) new BigDecimal(val);
-            }
-        }
+		BigDecimal val = (BigDecimal) object;
+		out.write(val.toString());
 
-        if (token == JSONToken.LITERAL_FLOAT) {
-            BigDecimal val = lexer.decimalValue();
-            lexer.nextToken(JSONToken.COMMA);
-            
-            if (clazz == BigInteger.class) {
-                return (T) val.toBigInteger();
-            } else {
-                return (T) val;
-            }
-        }
+		if ((out.features & SerializerFeature.WriteClassName.mask) != 0 && fieldType != BigDecimal.class && val.scale() == 0)
+		{
+			out.write('.');
+		}
+	}
 
-        Object value = parser.parse();
+	@SuppressWarnings("unchecked")
+	public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, Object[] alias)
+	{
+		final JSONLexer lexer = parser.lexer;
 
-        if (value == null) {
-            return null;
-        }
-        
-        if (clazz == BigInteger.class) {
-            return (T) TypeUtils.castToBigInteger(value);
-        }
+		int token = lexer.token();
+		if (token == JSONToken.LITERAL_INT)
+		{
+			String val = lexer.numberString();
+			lexer.nextToken(JSONToken.COMMA);
+			if (clazz == BigInteger.class)
+			{
+				return (T) new BigInteger(val);
+			}
+			else
+			{
+				return (T) new BigDecimal(val);
+			}
+		}
 
-        return (T) TypeUtils.castToBigDecimal(value);
-    }
+		if (token == JSONToken.LITERAL_FLOAT)
+		{
+			BigDecimal val = lexer.decimalValue();
+			lexer.nextToken(JSONToken.COMMA);
+
+			if (clazz == BigInteger.class)
+			{
+				return (T) val.toBigInteger();
+			}
+			else
+			{
+				return (T) val;
+			}
+		}
+
+		Object value = parser.parse();
+
+		if (value == null)
+		{
+			return null;
+		}
+
+		if (clazz == BigInteger.class)
+		{
+			return (T) TypeUtils.castToBigInteger(value);
+		}
+
+		return (T) TypeUtils.castToBigDecimal(value);
+	}
 }

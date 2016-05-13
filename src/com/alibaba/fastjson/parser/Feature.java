@@ -1,12 +1,9 @@
 /*
  * Copyright 1999-2101 Alibaba Group.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,87 +16,88 @@ package com.alibaba.fastjson.parser;
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
-public enum Feature {
-    /**
+public enum Feature
+{
+	/**
 	 * 
 	 */
-    AutoCloseSource,
-    /**
+	AutoCloseSource,
+	/**
 	 * 
 	 */
-    AllowComment,
-    /**
+	AllowComment,
+	/**
 	 * 
 	 */
-    AllowUnQuotedFieldNames,
-    /**
+	AllowUnQuotedFieldNames,
+	/**
 	 * 
 	 */
-    AllowSingleQuotes,
-    /**
+	AllowSingleQuotes,
+	/**
 	 * 
 	 */
-    InternFieldNames,
-    /**
+	InternFieldNames,
+	/**
 	 * 
 	 */
-    AllowISO8601DateFormat,
+	AllowISO8601DateFormat,
 
-    /**
-     * {"a":1,,,"b":2}
-     */
-    AllowArbitraryCommas,
+	/**
+	 * {"a":1,,,"b":2}
+	 */
+	AllowArbitraryCommas,
 
-    /**
+	/**
      * 
      */
-    UseBigDecimal,
-    
-    /**
-     * @since 1.1.2
-     */
-    IgnoreNotMatch,
+	UseBigDecimal,
 
-    /**
-     * @since 1.1.3
-     */
-    SortFeidFastMatch,
-    
-    /**
-     * @since 1.1.3
-     */
-    DisableASM,
-    
-    /**
-     * @since 1.1.7
-     */
-    DisableCircularReferenceDetect,
-    
-    /**
-     * @since 1.1.10
-     */
-    InitStringFieldAsEmpty,
-    
-    /**
-     * @since 1.1.35
-     * 
-     */
-    SupportArrayToBean,
-    
-    /**
-     * @since 1.2.5, backport to 1.1.49.android
-     */
-    OrderedField,
-    
-    /**
-     * @since 1.2.5, backport to 1.1.49.android
-     */
-    DisableSpecialKeyDetect
-    ;
+	/**
+	 * @since 1.1.2
+	 */
+	IgnoreNotMatch,
 
-    private Feature(){
-        mask = (1 << ordinal());
-    }
+	/**
+	 * @since 1.1.3
+	 */
+	SortFeidFastMatch,
 
-    public final int mask;
+	/**
+	 * @since 1.1.3
+	 */
+	DisableASM,
+
+	/**
+	 * @since 1.1.7
+	 */
+	DisableCircularReferenceDetect,
+
+	/**
+	 * @since 1.1.10
+	 */
+	InitStringFieldAsEmpty,
+
+	/**
+	 * @since 1.1.35
+	 * 
+	 */
+	SupportArrayToBean,
+
+	/**
+	 * @since 1.2.5, backport to 1.1.49.android
+	 */
+	OrderedField,
+
+	/**
+	 * @since 1.2.5, backport to 1.1.49.android
+	 */
+	DisableSpecialKeyDetect;
+
+	private Feature()
+	{
+		mask = (1 << ordinal());
+	}
+
+	public final int	mask;
 }

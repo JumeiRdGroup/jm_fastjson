@@ -17,6 +17,7 @@ public class TestDriver
 {
 
 	public static final String	testCase	= "{\"int_alias_test\":22,\"denver\":21, \"data\":{\"value\":\"avlua\"} }";
+
 	public static void main(String[] args)
 	{
 		RogerRsp rsp = JSON.parseObject(testCase, RogerRsp.class);

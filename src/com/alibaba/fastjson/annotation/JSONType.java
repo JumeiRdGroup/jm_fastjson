@@ -13,18 +13,20 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
-public @interface JSONType {
+public @interface JSONType
+{
 
-    boolean asm() default true;
+	boolean asm() default true;
 
-    String[] orders() default {};
-    
-    String[] ignores() default {};
+	String[] orders() default {};
 
-    SerializerFeature[] serialzeFeatures() default {};
-    Feature[] parseFeatures() default {};
-    
-    boolean alphabetic() default true;
-    
-    Class<?> mappingTo() default Void.class;
+	String[] ignores() default {};
+
+	SerializerFeature[] serialzeFeatures() default {};
+
+	Feature[] parseFeatures() default {};
+
+	boolean alphabetic() default true;
+
+	Class<?> mappingTo() default Void.class;
 }

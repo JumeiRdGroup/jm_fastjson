@@ -15,143 +15,177 @@ import com.alibaba.fastjson.parser.deserializer.FieldDeserializer;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
 import com.alibaba.fastjson.util.FieldInfo;
 
-class ListTypeFieldDeserializer extends FieldDeserializer {
+class ListTypeFieldDeserializer extends FieldDeserializer
+{
 
-    private final Type         itemType;
-    private ObjectDeserializer deserializer;
-    private final boolean      array;
+	private final Type			itemType;
+	private ObjectDeserializer	deserializer;
+	private final boolean		array;
 
-    public ListTypeFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo){
-        super(clazz, fieldInfo, JSONToken.LBRACKET);
+	public ListTypeFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo)
+	{
+		super(clazz, fieldInfo, JSONToken.LBRACKET);
 
-        Type fieldType = fieldInfo.fieldType;
-        Class<?> fieldClass= fieldInfo.fieldClass;
-        if (fieldType instanceof ParameterizedType) {
-            this.itemType = ((ParameterizedType) fieldType).getActualTypeArguments()[0];
-            array = false;
-        } else if (fieldClass.isArray()) {
-            this.itemType = fieldClass.getComponentType();
-            array = true;
-        } else {
-            this.itemType = Object.class;
-            array = false;
-        }
-    }
+		Type fieldType = fieldInfo.fieldType;
+		Class<?> fieldClass = fieldInfo.fieldClass;
+		if (fieldType instanceof ParameterizedType)
+		{
+			this.itemType = ((ParameterizedType) fieldType).getActualTypeArguments()[0];
+			array = false;
+		}
+		else if (fieldClass.isArray())
+		{
+			this.itemType = fieldClass.getComponentType();
+			array = true;
+		}
+		else
+		{
+			this.itemType = Object.class;
+			array = false;
+		}
+	}
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
-        if (parser.lexer.token == JSONToken.NULL) {
-            setValue(object, null);
-            return;
-        }
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues)
+	{
+		if (parser.lexer.token == JSONToken.NULL)
+		{
+			setValue(object, null);
+			return;
+		}
 
-        JSONArray jsonArray = null;
-        List list;
-        if (array) {
-            list = jsonArray = new JSONArray();
-            jsonArray.setComponentType(itemType);
-        } else {
-            list = new ArrayList(); 
-        }
+		JSONArray jsonArray = null;
+		List list;
+		if (array)
+		{
+			list = jsonArray = new JSONArray();
+			jsonArray.setComponentType(itemType);
+		}
+		else
+		{
+			list = new ArrayList();
+		}
 
-        ParseContext context = parser.contex;
+		ParseContext context = parser.contex;
 
-        parser.setContext(context, object, fieldInfo.name, fieldInfo.alias);
-        parseArray(parser, objectType, list);
-        parser.setContext(context);
-        
-        Object fieldValue;
-        if (array) {
-            Object[] arrayValue = (Object[]) Array.newInstance((Class<?>)itemType, list.size());
-            fieldValue = list.toArray(arrayValue);
-            jsonArray.setRelatedArray(fieldValue);
-        } else {
-            fieldValue = list;
-        }
+		parser.setContext(context, object, fieldInfo.name, fieldInfo.alias);
+		parseArray(parser, objectType, list);
+		parser.setContext(context);
 
-        if (object == null) {
-            fieldValues.put(fieldInfo.name, fieldValue);
-        } else {
-            setValue(object, fieldValue);
-        }
-    }
+		Object fieldValue;
+		if (array)
+		{
+			Object[] arrayValue = (Object[]) Array.newInstance((Class<?>) itemType, list.size());
+			fieldValue = list.toArray(arrayValue);
+			jsonArray.setRelatedArray(fieldValue);
+		}
+		else
+		{
+			fieldValue = list;
+		}
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    final void parseArray(DefaultJSONParser parser, Type objectType, Collection array) {
-        Type itemType = this.itemType;
-        ObjectDeserializer itemTypeDeser = this.deserializer;
-        
-        if (itemType instanceof TypeVariable //
-            && objectType instanceof ParameterizedType) {
-            TypeVariable typeVar = (TypeVariable) itemType;
-            ParameterizedType paramType = (ParameterizedType) objectType;
+		if (object == null)
+		{
+			fieldValues.put(fieldInfo.name, fieldValue);
+		}
+		else
+		{
+			setValue(object, fieldValue);
+		}
+	}
 
-            Class<?> objectClass = null;
-            if (paramType.getRawType() instanceof Class) {
-                objectClass = (Class<?>) paramType.getRawType();
-            }
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	final void parseArray(DefaultJSONParser parser, Type objectType, Collection array)
+	{
+		Type itemType = this.itemType;
+		ObjectDeserializer itemTypeDeser = this.deserializer;
 
-            int paramIndex = -1;
-            if (objectClass != null) {
-                for (int i = 0, size = objectClass.getTypeParameters().length; i < size; ++i) {
-                    TypeVariable item = objectClass.getTypeParameters()[i];
-                    if (item.getName().equals(typeVar.getName())) {
-                        paramIndex = i;
-                        break;
-                    }
-                }
-            }
+		if (itemType instanceof TypeVariable //
+				&& objectType instanceof ParameterizedType)
+		{
+			TypeVariable typeVar = (TypeVariable) itemType;
+			ParameterizedType paramType = (ParameterizedType) objectType;
 
-            if (paramIndex != -1) {
-                itemType = paramType.getActualTypeArguments()[paramIndex];
-                if (!itemType.equals(this.itemType)) {
-                    itemTypeDeser = parser.config.getDeserializer(itemType);
-                }
-            }
-        }
+			Class<?> objectClass = null;
+			if (paramType.getRawType() instanceof Class)
+			{
+				objectClass = (Class<?>) paramType.getRawType();
+			}
 
-        final JSONLexer lexer = parser.lexer;
+			int paramIndex = -1;
+			if (objectClass != null)
+			{
+				for (int i = 0, size = objectClass.getTypeParameters().length; i < size; ++i)
+				{
+					TypeVariable item = objectClass.getTypeParameters()[i];
+					if (item.getName().equals(typeVar.getName()))
+					{
+						paramIndex = i;
+						break;
+					}
+				}
+			}
 
-        if (lexer.token != JSONToken.LBRACKET) {
-            String errorMessage = "exepct '[', but " + JSONToken.name(lexer.token);
-            if (objectType != null) {
-                errorMessage += ", type : " + objectType;
-            }
-            throw new JSONException(errorMessage);
-        }
+			if (paramIndex != -1)
+			{
+				itemType = paramType.getActualTypeArguments()[paramIndex];
+				if (!itemType.equals(this.itemType))
+				{
+					itemTypeDeser = parser.config.getDeserializer(itemType);
+				}
+			}
+		}
 
-        if (itemTypeDeser == null) {
-            itemTypeDeser = deserializer = parser.config.getDeserializer(itemType);
-        }
+		final JSONLexer lexer = parser.lexer;
 
-        lexer.nextToken();
+		if (lexer.token != JSONToken.LBRACKET)
+		{
+			String errorMessage = "exepct '[', but " + JSONToken.name(lexer.token);
+			if (objectType != null)
+			{
+				errorMessage += ", type : " + objectType;
+			}
+			throw new JSONException(errorMessage);
+		}
 
-        boolean allowArbitraryCommas = (lexer.features & Feature.AllowArbitraryCommas.mask) != 0;
-        for (int i = 0;; ++i) {
-            if (allowArbitraryCommas) {
-                while (lexer.token == JSONToken.COMMA) {
-                    lexer.nextToken();
-                    continue;
-                }
-            }
+		if (itemTypeDeser == null)
+		{
+			itemTypeDeser = deserializer = parser.config.getDeserializer(itemType);
+		}
 
-            if (lexer.token == JSONToken.RBRACKET) {
-                break;
-            }
+		lexer.nextToken();
 
-            Object val = itemTypeDeser.deserialze(parser, itemType, i, null);
-            array.add(val);
+		boolean allowArbitraryCommas = (lexer.features & Feature.AllowArbitraryCommas.mask) != 0;
+		for (int i = 0;; ++i)
+		{
+			if (allowArbitraryCommas)
+			{
+				while (lexer.token == JSONToken.COMMA)
+				{
+					lexer.nextToken();
+					continue;
+				}
+			}
 
-            parser.checkListResolve(array);
+			if (lexer.token == JSONToken.RBRACKET)
+			{
+				break;
+			}
 
-            if (lexer.token == JSONToken.COMMA) {
-                lexer.nextToken();
-                continue;
-            }
-        }
+			Object val = itemTypeDeser.deserialze(parser, itemType, i, null);
+			array.add(val);
 
-        lexer.nextToken(JSONToken.COMMA);
-    }
+			parser.checkListResolve(array);
+
+			if (lexer.token == JSONToken.COMMA)
+			{
+				lexer.nextToken();
+				continue;
+			}
+		}
+
+		lexer.nextToken(JSONToken.COMMA);
+	}
 
 }

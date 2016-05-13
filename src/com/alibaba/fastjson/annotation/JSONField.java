@@ -47,6 +47,7 @@ public @interface JSONField
 	 * 注意,该alias仅仅针对解析有效,序列化时还是原来fastjon的逻辑,序列化时会忽略alias字段.
 	 * 
 	 * 用法如JSONField(name="alias0", alias={"alias1", "alias2"})
+	 * 
 	 * @author denverhan han_lian@foxmail.com
 	 * @return
 	 */

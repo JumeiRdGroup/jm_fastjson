@@ -11,91 +11,105 @@ import com.alibaba.fastjson.parser.deserializer.FieldDeserializer;
 import com.alibaba.fastjson.util.TypeUtils;
 
 @SuppressWarnings("rawtypes")
-final class ResolveFieldDeserializer extends FieldDeserializer {
+final class ResolveFieldDeserializer extends FieldDeserializer
+{
 
-    private final int               index;
-    private final List              list;
-    private final DefaultJSONParser parser;
-    
-    private final Object            key;
-    private final Map               map;
-    
-    private final Collection collection;
+	private final int				index;
+	private final List				list;
+	private final DefaultJSONParser	parser;
 
-    public ResolveFieldDeserializer(DefaultJSONParser parser, List list, int index){
-        super(null, null, 0);
-        this.parser = parser;
-        this.index = index;
-        this.list = list;
-        
-        key = null;
-        map = null;
-        
-        collection = null;
-    }
-    
-    public ResolveFieldDeserializer(Map map, Object index){
-        super(null, null, 0);
-        
-        this.parser = null;
-        this.index = -1;
-        this.list = null;
-        
-        this.key = index;
-        this.map = map;
-        
-        collection = null;
-    }
-    
-    public ResolveFieldDeserializer(Collection collection){
-        super(null, null, 0);
-        
-        this.parser = null;
-        this.index = -1;
-        this.list = null;
-        
-        key = null;
-        map = null;
-        
-        this.collection = collection;
-    }
+	private final Object			key;
+	private final Map				map;
 
-    @SuppressWarnings("unchecked")
-    public void setValue(Object object, Object value) {
-        if (map != null) {
-            map.put(key, value);
-            return;
-        }
-        
-        if (collection != null) {
-            collection.add(value);
-            return;
-        }
-        
-        list.set(index, value);
+	private final Collection		collection;
 
-        if (list instanceof JSONArray) {
-            JSONArray jsonArray = (JSONArray) list;
-            Object array = jsonArray.getRelatedArray();
+	public ResolveFieldDeserializer(DefaultJSONParser parser, List list, int index)
+	{
+		super(null, null, 0);
+		this.parser = parser;
+		this.index = index;
+		this.list = list;
 
-            if (array != null) {
-                int arrayLength = Array.getLength(array);
+		key = null;
+		map = null;
 
-                if (arrayLength > index) {
-                    Object item;
-                    if (jsonArray.getComponentType() != null) {
-                        item = TypeUtils.cast(value, jsonArray.getComponentType(), parser.config);
-                    } else {
-                        item = value;
-                    }
-                    Array.set(array, index, item);
-                }
-            }
-        }
-    }
+		collection = null;
+	}
 
-    public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+	public ResolveFieldDeserializer(Map map, Object index)
+	{
+		super(null, null, 0);
 
-    }
+		this.parser = null;
+		this.index = -1;
+		this.list = null;
+
+		this.key = index;
+		this.map = map;
+
+		collection = null;
+	}
+
+	public ResolveFieldDeserializer(Collection collection)
+	{
+		super(null, null, 0);
+
+		this.parser = null;
+		this.index = -1;
+		this.list = null;
+
+		key = null;
+		map = null;
+
+		this.collection = collection;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setValue(Object object, Object value)
+	{
+		if (map != null)
+		{
+			map.put(key, value);
+			return;
+		}
+
+		if (collection != null)
+		{
+			collection.add(value);
+			return;
+		}
+
+		list.set(index, value);
+
+		if (list instanceof JSONArray)
+		{
+			JSONArray jsonArray = (JSONArray) list;
+			Object array = jsonArray.getRelatedArray();
+
+			if (array != null)
+			{
+				int arrayLength = Array.getLength(array);
+
+				if (arrayLength > index)
+				{
+					Object item;
+					if (jsonArray.getComponentType() != null)
+					{
+						item = TypeUtils.cast(value, jsonArray.getComponentType(), parser.config);
+					}
+					else
+					{
+						item = value;
+					}
+					Array.set(array, index, item);
+				}
+			}
+		}
+	}
+
+	public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues)
+	{
+
+	}
 
 }

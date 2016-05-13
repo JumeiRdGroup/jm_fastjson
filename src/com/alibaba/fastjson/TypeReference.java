@@ -8,27 +8,32 @@ import java.lang.reflect.Type;
  * represent generic types, so this class does. Forces clients to create a
  * subclass of this class which enables retrieval the type information even at
  * runtime.
- *
- * <p>For example, to create a type literal for List&lt;String&gt;, you can
- * create an empty anonymous inner class:
- *
+ * 
  * <p>
- * List&lt;String&gt; list = JSON.parseObject("...", new TypeReference&lt;List&lt;String&gt;&gt;() {});
- *
- *
+ * For example, to create a type literal for List&lt;String&gt;, you can create
+ * an empty anonymous inner class:
+ * 
+ * <p>
+ * List&lt;String&gt; list = JSON.parseObject("...", new
+ * TypeReference&lt;List&lt;String&gt;&gt;() {});
+ * 
+ * 
  * @author wenshao[szujobs@hotmail.com]
  */
-public class TypeReference<T> {
+public class TypeReference<T>
+{
 
-    protected final Type type;
+	protected final Type	type;
 
-    protected TypeReference(){
-        Type superClass = getClass().getGenericSuperclass();
+	protected TypeReference()
+	{
+		Type superClass = getClass().getGenericSuperclass();
 
-        type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
-    }
-    
-    public Type getType() {
-        return type;
-    }
+		type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+	}
+
+	public Type getType()
+	{
+		return type;
+	}
 }
