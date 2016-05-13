@@ -15,12 +15,17 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class RogerRsp<T extends RogerRsp<T>>
 {
 
-
-	//"{\"int_alias_test\":22,\"denver\":21 }";
-	
-	@JSONField(name="message", alias= {"denver", "abc"})
-	public int				mMessage;
 	@JSONField(name="Xessage_int",  alias= {"int_alias_test", "a"})
 	public int  			mInt ;
+	@JSONField(name="message", alias= {"denver", "abc"})
+	public int				mMessage;
+	
+	@JSONField( alias= {"data", "kabc"})
+	public Data		mData;
+	
+	public static class Data
+	{
+		public String value;
+	}
 	
 }
