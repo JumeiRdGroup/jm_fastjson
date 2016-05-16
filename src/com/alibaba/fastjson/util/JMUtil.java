@@ -38,24 +38,16 @@ public class JMUtil
 	{
 		if (isEmpty(img))
 			return "";
-
 		img = img.trim();
-		// if (!img.startsWith(JSONToken.name(JSONToken.LBRACE)) ||
-		// !img.endsWith(JSONToken.name(JSONToken.RBRACE)))
-		// return img;
-
-		// sData.get().clear();
-
 		int start = img.indexOf(JSONToken.name(JSONToken.LBRACE));
 		int end = img.lastIndexOf(JSONToken.name(JSONToken.RBRACE));
 
 		if (start == -1 || end == -1)
 			return img;
 
-
 		img = img.substring(start + 1, end);
 
-		String[] unit = img.split(",");
+		String[] unit = img.split(",\"");
 
 		float matchRate = Float.MAX_VALUE;
 
@@ -65,7 +57,7 @@ public class JMUtil
 				continue;
 
 
-			int spliter = item.indexOf(":");
+			int spliter = item.indexOf("\":");
 			if (spliter == -1)
 			{
 				continue;
