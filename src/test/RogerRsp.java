@@ -1,6 +1,7 @@
 package test;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 
 
 
@@ -15,18 +16,17 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class RogerRsp<T extends RogerRsp<T>>
 {
 
-	@JSONField(name="Xessage_int",  alias= {"int_alias_test", "a"})
 	public int  			mInt ;
-	@JSONField(name="message", alias= {"denver", "abc"})
+	@JSONField(name="message", alias= {"","denver", "abc"})
 	public int				mMessage;
 	
 	@JSONField( alias= {"data", "kabc"})
 	public Data		mData;
-	
+
+//	@JSONType( asm=false)
 	public static class Data
 	{
 		@JSONField(name="va", alias= {"value", "kabc"})
 		public String mValue;
 	}
-	
 }

@@ -1,6 +1,7 @@
 package com.alibaba.fastjson.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.JSONToken;
 
 
@@ -34,83 +35,62 @@ public class JMUtil
 	// "1080":"http://showlive-10012585.image.myqcloud.com/eccba269-8417-4fff-a1a3-3b4c2b10203a/1280",
 	// "1280":"http://showlive-10012585.image.myqcloud.com/eccba269-8417-4fff-a1a3-3b4c2b10203a/1280"
 	// }
+
+	public static String parJmImg(String img)
+	{
+		if (isEmpty(img))
+			return "";
+
+		JSONObject json = JSON.parseObject(img);
+
+		if (json == null)
+			return img;
+
+		if (json.keySet() == null || json.size() == 0)
+			return img;
+		float matchRate = Float.MAX_VALUE;
+		String result = img;
+		for (String key : json.keySet())
+		{
+			float cur = Float.valueOf(key) / JSON.SCREEN_WIDTH;
+			if (Math.abs(cur - 1.0F) < Math.abs(matchRate - 1.0F))// much
+																	// better.
+			{
+				matchRate = cur;
+				img = json.getString(key);
+			}
+		}
+		return result;
+	}
+
 	public static String parseImageJson(String img)
 	{
 		if (isEmpty(img))
 			return "";
-		img = img.trim();
-		int start = img.indexOf(JSONToken.name(JSONToken.LBRACE));
-		int end = img.lastIndexOf(JSONToken.name(JSONToken.RBRACE));
 
-		if (start == -1 || end == -1)
+		JSONObject json = JSON.parseObject(img);
+
+		if (json == null)
 			return img;
 
-		img = img.substring(start + 1, end);
-
-		String[] unit = img.split(",\"");
-
+		if (json.keySet() == null || json.size() == 0)
+			return img;
 		float matchRate = Float.MAX_VALUE;
-
-		for (String item : unit)
+		String result = img;
+		for (String key : json.keySet())
 		{
-			if (item == null || item.length() == 0)
+			if(isEmpty(key))
 				continue;
-
-
-			int spliter = item.indexOf("\":");
-			if (spliter == -1)
+			
+			float cur = Float.valueOf(key) / JSON.SCREEN_WIDTH;
+			if (Math.abs(cur - 1.0F) < Math.abs(matchRate - 1.0F))// much
+																	// better.
 			{
-				continue;
+				matchRate = cur;
+				result = json.getString(key);
 			}
-
-			String key = item.substring(0, spliter);
-			String value = (spliter + 1 >= item.length()) ? null : item.substring(spliter + 1, item.length());
-			if (value == null)
-			{
-				continue;
-			}
-
-			try
-			{
-				key = delQuto(key);
-				value = delQuto(value);
-				img = value;
-
-				float cur = Float.valueOf(key) / JSON.SCREEN_WIDTH;
-				if (Math.abs(cur - 1.0F) < Math.abs(matchRate - 1.0F))// much
-																		// better.
-				{
-					matchRate = cur;
-					img = value;
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			// sData.get().put(v[0], v[1]);
 		}
-		return img;
-	}
-
-	private static String delQuto(String key)
-	{
-		if (isEmpty(key))
-			return "";
-
-		int pos = key.indexOf("\"");
-		if (pos != -1 && key.length() > 1)
-		{
-			key = key.substring(pos + 1);
-		}
-
-		pos = key.lastIndexOf("\"");
-		if (pos != -1 && key.length() > 1)
-		{
-			key = key.substring(0, pos);
-		}
-
-		return key;
+		return result;
 	}
 
 	public static boolean isEmpty(CharSequence str)
