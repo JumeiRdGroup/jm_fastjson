@@ -2,7 +2,6 @@ package com.alibaba.fastjson.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.JSONToken;
 
 
 /*
