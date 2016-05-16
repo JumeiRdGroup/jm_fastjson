@@ -1,6 +1,7 @@
 package test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.util.JMUtil;
 
 
@@ -15,16 +16,33 @@ import com.alibaba.fastjson.util.JMUtil;
 public class TestDriver
 {
 
+	private static class Person
+	{
+		public String	mName;
+
+		// public int mAge = 19;
+
+		// public String mHomePage="sss";
+
+		// public HeadUrlData mHead = new HeadUrlData();
+		public static class HeadUrlData
+		{
+			public String	mValue;
+		}
+	}
+
+
+	public static String		jmimg		= "{\"1080\":\"http://images2.jumei.com/user_avatar/092/909/92909501-200.jpg?1458828594\",\"1280\":\"http://images2.jumei.com/user_avatar/092/909/92909501-200.jpg?1458828594\",\"640\":\"http://images2.jumei.com/user_avatar/092/909/92909501-100.jpg?1458828647\",\"720\":\"http://images2.jumei.com/user_avatar/092/909/92909501-100.jpg?1458828647\"}";
 	public static final String	testCase	= "{\"int_alias_test\":22,\"denver\":21, \"data\":{\"value\":\"avlua\"} }";
+
+	static String				imgTest		= "{\"1080\":\"http://mp2.jmstatic.com/product/001/564/1564334_std/1564334_350_350.jpg?imageView2/2/w/540&v=1462858128\",\"480\":\"http://mp1.jmstatic.com/c_zoom,w_240,q_70/product/001/564/1564334_std/1564334_350_350.jpg?v=1462858128\",\"320\":\"http://mp1.jmstatic.com/c_zoom,w_160,q_70/product/001/564/1564334_std/1564334_350_350.jpg?v=1462858128\",\"640\":\"http://mp1.jmstatic.com/c_zoom,w_320,q_70/product/001/564/1564334_std/1564334_350_350.jpg?v=1462858128\"}";
 
 	public static void main(String[] args)
 	{
-		RogerRsp rsp = JSON.parseObject(testCase, RogerRsp.class);
-		System.out.println(JSON.toJSONString(rsp));
 
 
-		String s = JMUtil.parseImageJson(Jmimg.a);
+
+		String s = JMUtil.parseImageJson(imgTest);
 		System.out.println("s:" + s);
-
 	}
 }
