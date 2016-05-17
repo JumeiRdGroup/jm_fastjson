@@ -1,5 +1,6 @@
 package test;
 
+import com.alibaba.fastjson.annotation.JMIMG;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 
@@ -23,10 +24,19 @@ public class RogerRsp<T extends RogerRsp<T>>
 	@JSONField( alias= {"data", "kabc"})
 	public Data		mData;
 
-//	@JSONType( asm=false)
 	public static class Data
 	{
-		@JSONField(name="va", alias= {"value", "kabc"})
-		public String mValue;
+		private  String mValue;
+		
+		@JMIMG
+		public void setValue(String v)
+		{
+			mValue = v;
+		}
+		
+		public String getValue()
+		{
+			return mValue;
+		}
 	}
 }
