@@ -29,6 +29,7 @@ public class RogerRsp<T extends RogerRsp<T>>
 		private  String mValue;
 		
 		@JMIMG
+		@JSONField(name="good_value", alias= {"goodvalue", "kabc"})
 		public void setValue(String v)
 		{
 			mValue = v;
