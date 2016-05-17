@@ -46,7 +46,9 @@ public class DefaultFieldDeserializer extends FieldDeserializer
 		else
 		{
 
-			if (fieldInfo.field != null && value != null && fieldInfo.field.isAnnotationPresent(JMIMG.class))
+			if (value != null
+					&& (fieldInfo.field != null && fieldInfo.field.isAnnotationPresent(JMIMG.class) || fieldInfo.method != null
+							&& fieldInfo.method.isAnnotationPresent(JMIMG.class)))
 			{
 				value = JMUtil.parseImageJson(value.toString());
 			}
