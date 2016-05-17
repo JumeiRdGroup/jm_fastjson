@@ -2,6 +2,7 @@ package com.alibaba.fastjson.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.JSONToken;
 
 
 /*
@@ -19,6 +20,12 @@ public class JMUtil
 		if (isEmpty(img))
 			return "";
 
+		int start = img.indexOf(JSONToken.name(JSONToken.LBRACE));
+		int end = img.lastIndexOf(JSONToken.name(JSONToken.RBRACE));
+
+		if (start == -1 || end == -1)
+			return img;
+			
 		JSONObject json = JSON.parseObject(img);
 
 		if (json == null)
