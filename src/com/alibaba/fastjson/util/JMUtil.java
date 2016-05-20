@@ -1,5 +1,7 @@
 package com.alibaba.fastjson.util;
 
+import java.util.regex.Pattern;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.JSONToken;
@@ -25,7 +27,7 @@ public class JMUtil
 
 		if (start == -1 || end == -1)
 			return img;
-			
+
 		JSONObject json = JSON.parseObject(img);
 
 		if (json == null)
@@ -37,7 +39,9 @@ public class JMUtil
 		String result = img;
 		for (String key : json.keySet())
 		{
-			if (isEmpty(key))
+
+			Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+			if (isEmpty(key) || !pattern.matcher(key).matches())
 				continue;
 
 			float cur = Float.valueOf(key) / JSON.SCREEN_WIDTH;
