@@ -35,7 +35,7 @@ public class DefaultFieldDeserializer extends FieldDeserializer
 			objContext.type = objectType;
 		}
 
-		Object value = fieldValueDeserilizer.deserialze(parser, fieldInfo.fieldType, fieldInfo.name, fieldInfo.alias);
+		Object value = fieldValueDeserilizer.deserialze(parser, fieldInfo.fieldType, fieldInfo.name);
 		if (parser.resolveStatus == DefaultJSONParser.NeedToResolve)
 		{
 			ResolveTask task = parser.getLastResolveTask();

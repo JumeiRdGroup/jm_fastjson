@@ -176,7 +176,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName)
 	{
 		JSONLexer lexer = parser.lexer;
 

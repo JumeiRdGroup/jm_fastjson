@@ -2,7 +2,6 @@ package test;
 
 import com.alibaba.fastjson.annotation.JMIMG;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
 
 
 

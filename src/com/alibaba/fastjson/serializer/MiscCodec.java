@@ -187,7 +187,7 @@ public final class MiscCodec implements ObjectSerializer, ObjectDeserializer
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName)
 	{
 		if (clazz == StackTraceElement.class)
 		{

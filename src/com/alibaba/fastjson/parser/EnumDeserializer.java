@@ -19,7 +19,7 @@ public class EnumDeserializer implements ObjectDeserializer
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName)
 	{
 		try
 		{

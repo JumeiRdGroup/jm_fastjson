@@ -15,7 +15,7 @@ class JavaObjectDeserializer implements ObjectDeserializer
 	public final static JavaObjectDeserializer	instance	= new JavaObjectDeserializer();
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName)
 	{
 		if (type instanceof GenericArrayType)
 		{
@@ -44,6 +44,6 @@ class JavaObjectDeserializer implements ObjectDeserializer
 
 		}
 
-		return (T) parser.parse(fieldName, alias);
+		return (T) parser.parse(fieldName);
 	}
 }

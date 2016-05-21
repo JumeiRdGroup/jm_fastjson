@@ -136,7 +136,7 @@ public class CollectionCodec implements ObjectSerializer, ObjectDeserializer
 
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName)
 	{
 		if (parser.lexer.token() == JSONToken.NULL)
 		{
@@ -239,7 +239,7 @@ public class CollectionCodec implements ObjectSerializer, ObjectDeserializer
 				itemType = Object.class;
 			}
 		}
-		parser.parseArray(itemType, list, fieldName, alias);
+		parser.parseArray(itemType, list, fieldName);
 
 		return (T) list;
 	}
