@@ -6,5 +6,5 @@ import com.alibaba.fastjson.parser.DefaultJSONParser;
 
 public interface ObjectDeserializer
 {
-	<T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias);
+	<T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName);
 }

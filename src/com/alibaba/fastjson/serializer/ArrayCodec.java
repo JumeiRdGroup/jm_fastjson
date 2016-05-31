@@ -157,7 +157,7 @@ public final class ArrayCodec implements ObjectSerializer, ObjectDeserializer
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName)
 	{
 		final JSONLexer lexer = parser.lexer;
 
@@ -198,7 +198,7 @@ public final class ArrayCodec implements ObjectSerializer, ObjectDeserializer
 		Class clazz = (Class) type;
 		Class componentClass = clazz.getComponentType();
 		JSONArray array = new JSONArray();
-		parser.parseArray(componentClass, array, fieldName, alias);
+		parser.parseArray(componentClass, array, fieldName);
 
 		return (T) toObjectArray(parser, componentClass, array);
 	}

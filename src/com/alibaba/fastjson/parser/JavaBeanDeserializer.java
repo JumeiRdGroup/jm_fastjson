@@ -111,9 +111,9 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 		return object;
 	}
 
-	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object[] alias)
+	public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName)
 	{
-		return deserialze(parser, type, fieldName, null, alias);
+		return deserialze(parser, type, fieldName, null);
 	}
 
 	protected FieldDeserializer getFieldDeserializer(String key)
@@ -365,7 +365,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object object, Object[] alias)
+	private <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object object)
 	{
 		if (type == JSON.class || type == JSONObject.class)
 		{
@@ -672,7 +672,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 						}
 						lexer.nextToken(JSONToken.COMMA);
 
-						parser.setContext(context, object, fieldName, alias);
+						parser.setContext(context, object, fieldName);
 
 						return (T) object;
 					}
@@ -697,7 +697,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 
 							Class<?> userType = TypeUtils.loadClass(typeName, parser.config.defaultClassLoader);
 							ObjectDeserializer deserizer = parser.config.getDeserializer(userType);
-							return (T) deserizer.deserialze(parser, userType, fieldName, alias);
+							return (T) deserizer.deserialze(parser, userType, fieldName);
 						}
 						else
 						{
@@ -713,7 +713,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 					{
 						fieldValues = new HashMap<String, Object>(this.fieldDeserializers.length);
 					}
-					childContext = parser.setContext(context, object, fieldName, alias);
+					childContext = parser.setContext(context, object, fieldName);
 				}
 
 				if (matchField)
@@ -851,7 +851,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 					object = createInstance(parser, type);
 					if (childContext == null)
 					{
-						childContext = parser.setContext(context, object, fieldName, alias);
+						childContext = parser.setContext(context, object, fieldName);
 					}
 					return (T) object;
 				}
