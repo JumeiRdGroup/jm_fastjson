@@ -423,7 +423,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 
 			if (token != JSONToken.LBRACE && token != JSONToken.COMMA)
 			{
-				if (lexer.isBlankInput())
+				if (lexer.isBlankInput() || token == JSONToken.LBRACKET)
 				{
 					return null;
 				}
@@ -905,6 +905,9 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 		JSONLexer lexer = parser.lexer; // xxx
 
 		FieldDeserializer fieldDeserializer = getFieldDeserializer(key);
+
+		if (key == null)
+			return false;
 
 		if (fieldDeserializer == null)
 		{

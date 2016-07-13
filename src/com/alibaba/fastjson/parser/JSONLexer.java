@@ -749,6 +749,13 @@ public final class JSONLexer
 			token = JSONToken.RBRACE;
 			return null;
 		}
+		
+		if (ch == ']')
+		{
+			next();
+			token = JSONToken.RBRACKET;
+			return null;
+		}
 
 		if (ch == ',')
 		{
