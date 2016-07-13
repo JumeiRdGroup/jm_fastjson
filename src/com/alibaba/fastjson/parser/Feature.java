@@ -92,7 +92,12 @@ public enum Feature
 	/**
 	 * @since 1.2.5, backport to 1.1.49.android
 	 */
-	DisableSpecialKeyDetect;
+	DisableSpecialKeyDetect,
+
+	/**
+	 * 允许为空的对象在没有值时使用中括号代替大括号.
+	 */
+	IgnoreEmptyBracket;
 
 	private Feature()
 	{
