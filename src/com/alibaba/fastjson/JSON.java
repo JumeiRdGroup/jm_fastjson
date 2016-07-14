@@ -331,16 +331,22 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 		return array;
 	}
 
-	public static final <T> List<T> parseArray(String text, Class<T> clazz)
+	public static final <T> List<T> parseArray(String text, Class<T> clazz, Feature... features)
 	{
 		if (text == null)
 		{
 			return null;
 		}
 
+		int featureValues = DEFAULT_PARSER_FEATURE;
+		for (Feature feature : features)
+		{
+			featureValues |= feature.mask;
+		}
+		
 		List<T> list;
 
-		DefaultJSONParser parser = new DefaultJSONParser(text, ParserConfig.global);
+		DefaultJSONParser parser = new DefaultJSONParser(text, ParserConfig.global, featureValues);
 		JSONLexer lexer = parser.lexer;
 		int token = lexer.token();
 		if (token == JSONToken.NULL)
