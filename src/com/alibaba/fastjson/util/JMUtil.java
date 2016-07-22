@@ -17,7 +17,7 @@ import com.alibaba.fastjson.parser.JSONToken;
 
 public class JMUtil
 {
-	public static String parseImageJson(String img)
+	public static String parseImageJson(String img, boolean unitPx)
 	{
 		if (isEmpty(img))
 			return "";
@@ -44,7 +44,13 @@ public class JMUtil
 			if (isEmpty(key) || !pattern.matcher(key).matches())
 				continue;
 
-			float cur = Float.valueOf(key) / JSON.SCREEN_WIDTH;
+			int width = unitPx ? JSON.SCREEN_WIDTH_IN_PX : JSON.SCREEN_WIDTH_IN_DP;
+			if (width == 0)
+			{
+				return img;
+			}
+			
+			float cur = Float.valueOf(key) / width;
 			if (Math.abs(cur - 1.0F) < Math.abs(matchRate - 1.0F))// much
 																	// better.
 			{

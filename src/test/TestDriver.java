@@ -28,7 +28,7 @@ public class TestDriver
 		RogerRsp p = JSON.parseObject(testCase, RogerRsp.class);
 		System.out.println("imgUrl:" + p.imgUrl);
 		System.out.println("data.value:" + p.mData.getValue());
-		String s = JMUtil.parseImageJson(url);
+		String s = JMUtil.parseImageJson(url, false);
 		System.out.println("s:" + s);
 	}
 }

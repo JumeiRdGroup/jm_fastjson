@@ -77,7 +77,8 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 		DEFAULT_PARSER_FEATURE = features;
 	}
 
-	public static int			SCREEN_WIDTH			= 720;
+	public static int			SCREEN_WIDTH_IN_DP			= 720;
+	public static int			SCREEN_WIDTH_IN_PX			= 720;
 
 	public static String		DEFFAULT_DATE_FORMAT	= "yyyy-MM-dd HH:mm:ss";
 

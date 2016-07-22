@@ -50,7 +50,12 @@ public class DefaultFieldDeserializer extends FieldDeserializer
 					&& (fieldInfo.field != null && fieldInfo.field.isAnnotationPresent(JMIMG.class) || fieldInfo.method != null
 							&& fieldInfo.method.isAnnotationPresent(JMIMG.class)))
 			{
-				value = JMUtil.parseImageJson(value.toString());
+				boolean usePx = false;
+				JMIMG fieldAnotation = fieldInfo.field != null ? fieldInfo.field.getAnnotation(JMIMG.class) : null;
+				JMIMG methodAnotation = fieldInfo.method != null ? fieldInfo.method.getAnnotation(JMIMG.class) : null;
+				usePx = (fieldAnotation != null ? fieldAnotation.UnitPx() : false) || (methodAnotation != null ? methodAnotation.UnitPx() : false);
+
+				value = JMUtil.parseImageJson(value.toString(), usePx);
 			}
 
 			if (object == null)
