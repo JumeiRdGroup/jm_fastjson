@@ -1,6 +1,7 @@
 package test;
 
 import com.alibaba.fastjson.annotation.JMIMG;
+import com.alibaba.fastjson.annotation.JMIMG.Unit;
 import com.alibaba.fastjson.annotation.JSONField;
 
 
@@ -18,7 +19,7 @@ public class RogerRsp
 
 	public int  			mInt ;
 
-	@JMIMG
+	@JMIMG(Unit.DP)
 	public String				imgUrl;
 	
 	@JSONField( alias= {"data", "kabc"})

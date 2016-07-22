@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JMIMG.Unit;
 import com.alibaba.fastjson.parser.JSONToken;
 
 
@@ -17,7 +18,7 @@ import com.alibaba.fastjson.parser.JSONToken;
 
 public class JMUtil
 {
-	public static String parseImageJson(String img, boolean unitPx)
+	public static String parseImageJson(String img, Unit unitPx)
 	{
 		if (isEmpty(img))
 			return "";
@@ -44,12 +45,12 @@ public class JMUtil
 			if (isEmpty(key) || !pattern.matcher(key).matches())
 				continue;
 
-			int width = unitPx ? JSON.SCREEN_WIDTH_IN_PX : JSON.SCREEN_WIDTH_IN_DP;
+			int width = unitPx == Unit.PX ? JSON.SCREEN_WIDTH_IN_PX : JSON.SCREEN_WIDTH_IN_DP;
 			if (width == 0)
 			{
 				return img;
 			}
-			
+
 			float cur = Float.valueOf(key) / width;
 			if (Math.abs(cur - 1.0F) < Math.abs(matchRate - 1.0F))// much
 																	// better.

@@ -18,5 +18,12 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD, ElementType.METHOD })
 public @interface JMIMG
 {
-	boolean UnitPx() default true;
+	public enum Unit
+	{
+		PX,//按按照像素解析
+		DP//按照分辨率解析
+	};
+
+	//默认按照分辨率解析
+	Unit value() default Unit.PX;
 }
