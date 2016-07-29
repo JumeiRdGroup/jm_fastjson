@@ -1,7 +1,6 @@
 package test;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JMIMG.Unit;
 import com.alibaba.fastjson.util.JMUtil;
 
 
@@ -29,7 +28,7 @@ public class TestDriver
 		RogerRsp p = JSON.parseObject(testCase, RogerRsp.class);
 		System.out.println("imgUrl:" + p.imgUrl);
 		System.out.println("data.value:" + p.mData.getValue());
-		String s = JMUtil.parseImageJson(url, Unit.DP);
+		String s = JMUtil.parseImageJson(url, false);
 		System.out.println("s:" + s);
 	}
 }

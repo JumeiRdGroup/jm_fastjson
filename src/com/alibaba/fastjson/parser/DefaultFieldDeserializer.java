@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import com.alibaba.fastjson.annotation.JMIMG;
-import com.alibaba.fastjson.annotation.JMIMG.Unit;
 import com.alibaba.fastjson.parser.DefaultJSONParser.ResolveTask;
 import com.alibaba.fastjson.parser.deserializer.FieldDeserializer;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
@@ -51,12 +50,12 @@ public class DefaultFieldDeserializer extends FieldDeserializer
 					&& (fieldInfo.field != null && fieldInfo.field.isAnnotationPresent(JMIMG.class) || fieldInfo.method != null
 							&& fieldInfo.method.isAnnotationPresent(JMIMG.class)))
 			{
-				Unit unit = Unit.PX;
+				boolean usePx = false;
 				JMIMG fieldAnotation = fieldInfo.field != null ? fieldInfo.field.getAnnotation(JMIMG.class) : null;
 				JMIMG methodAnotation = fieldInfo.method != null ? fieldInfo.method.getAnnotation(JMIMG.class) : null;
-				unit = fieldAnotation != null ? fieldAnotation.value() : (methodAnotation != null ? methodAnotation.value() : Unit.PX);
+				usePx = (fieldAnotation != null ? fieldAnotation.UnitPx() : false) || (methodAnotation != null ? methodAnotation.UnitPx() : false);
 
-				value = JMUtil.parseImageJson(value.toString(), unit);
+				value = JMUtil.parseImageJson(value.toString(), usePx);
 			}
 
 			if (object == null)
