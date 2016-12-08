@@ -929,6 +929,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 				{
 					for (String name : alias)
 					{
+						//compare the name of an filed to an alias listed by the annotation. denverhan 20161208
 						if (name.equalsIgnoreCase(key))
 						{
 							fieldDeserializer = fieldDeser;
