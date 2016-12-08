@@ -1,5 +1,7 @@
 package test;
 
+import java.util.ArrayList;
+
 import com.alibaba.fastjson.annotation.JMIMG;
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -23,6 +25,8 @@ public class RogerRsp
 	
 	@JSONField( alias= {"data", "kabc"})
 	public Data		mData;
+	
+	public ArrayList<String> name;
 
 	public static class Data
 	{
