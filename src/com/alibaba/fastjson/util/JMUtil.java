@@ -34,7 +34,7 @@ public class JMUtil
 			return img;
 
 		if (json.keySet() == null || json.size() == 0)
-			return img;
+			return "";
 		float matchRate = Float.MAX_VALUE;
 		String result = img;
 		for (String key : json.keySet())
