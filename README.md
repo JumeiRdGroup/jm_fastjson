@@ -44,4 +44,28 @@ public class RogerRsp
       }
   }
 }
+
+```
+
+兼容中括号的用法如下：
+
+
+
+```java
+public enum Feature
+{
+ .................
+
+  /**
+   * 允许为空的对象在没有值时使用中括号代替大括号.
+   */
+  IgnoreEmptyBracket;
+..................
+}
+
+
+//
+......................
+public static final String	testCase	= "{\"imgUrl\":" + imgTest + " ,\"denver\":21, \"Data\":{\"good_value\":" + url + "}  ,\"name\":[\"namea\",\"nameb\",\"namec\",\"named\",\"namee\"] 			 }";
+RogerRsp p = JSON.parseObject(testCase, RogerRsp.class, Feature.IgnoreEmptyBracket);
 ```
