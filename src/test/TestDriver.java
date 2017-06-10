@@ -1,7 +1,7 @@
 package test;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.util.JMUtil;
+import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.util.JMUtil;
 
 
 /*
