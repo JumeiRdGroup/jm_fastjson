@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.JSONObject;
 import com.jumei.fastjson.parser.DefaultJSONParser.ResolveTask;
@@ -154,7 +154,7 @@ class MapDeserializer implements ObjectDeserializer
 
 				lexer.sp = 0;
 
-				if (key == JSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
+				if (key == JMJSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
 				{
 					String typeName = lexer.scanSymbol(parser.symbolTable, '"');
 					Class<?> clazz = TypeUtils.loadClass(typeName, parser.config.defaultClassLoader);
@@ -299,7 +299,7 @@ class MapDeserializer implements ObjectDeserializer
 
 				if (map.size() == 0 //
 						&& token == JSONToken.LITERAL_STRING //
-						&& JSON.DEFAULT_TYPE_KEY.equals(lexer.stringVal()) //
+						&& JMJSON.DEFAULT_TYPE_KEY.equals(lexer.stringVal()) //
 						&& !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
 				{
 					lexer.nextTokenWithChar(':');

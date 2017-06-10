@@ -18,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.parser.JSONLexer;
 
@@ -49,7 +49,7 @@ public final class SerializeWriter extends Writer
 	public SerializeWriter(Writer writer)
 	{
 		this.writer = writer;
-		this.features = JSON.DEFAULT_GENERATE_FEATURE;
+		this.features = JMJSON.DEFAULT_GENERATE_FEATURE;
 
 		buf = bufLocal.get();
 

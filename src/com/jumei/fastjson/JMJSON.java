@@ -53,7 +53,7 @@ import com.jumei.fastjson.util.TypeUtils;
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
-public abstract class JSON implements JSONStreamAware, JSONAware
+public abstract class JMJSON implements JSONStreamAware, JSONAware
 {
 
 	public static TimeZone		defaultTimeZone			= TimeZone.getDefault();
@@ -154,7 +154,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 			return (JSONObject) obj;
 		}
 
-		return (JSONObject) JSON.toJSON(obj);
+		return (JSONObject) JMJSON.toJSON(obj);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -430,7 +430,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 
 	public static final byte[] toJSONBytes(Object object, SerializerFeature... features)
 	{
-		SerializeWriter out = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, features);
+		SerializeWriter out = new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, features);
 
 		try
 		{
@@ -468,7 +468,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 
 	public static final byte[] toJSONBytes(Object object, SerializeConfig config, SerializerFeature... features)
 	{
-		SerializeWriter out = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, features);
+		SerializeWriter out = new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, features);
 
 		try
 		{
@@ -495,7 +495,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 
 	public static final void writeJSONStringTo(Object object, Writer writer, SerializerFeature... features)
 	{
-		SerializeWriter out = new SerializeWriter(writer, JSON.DEFAULT_GENERATE_FEATURE, features);
+		SerializeWriter out = new SerializeWriter(writer, JMJSON.DEFAULT_GENERATE_FEATURE, features);
 
 		try
 		{
@@ -518,7 +518,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 
 	public String toJSONString()
 	{
-		SerializeWriter out = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
+		SerializeWriter out = new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
 		try
 		{
 			new JSONSerializer(out, SerializeConfig.globalInstance).write(this);
@@ -532,7 +532,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 
 	public void writeJSONString(Appendable appendable)
 	{
-		SerializeWriter out = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
+		SerializeWriter out = new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
 		try
 		{
 			new JSONSerializer(out, SerializeConfig.globalInstance).write(this);
@@ -562,9 +562,9 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 			return null;
 		}
 
-		if (javaObject instanceof JSON)
+		if (javaObject instanceof JMJSON)
 		{
-			return (JSON) javaObject;
+			return (JMJSON) javaObject;
 		}
 
 		if (javaObject instanceof Map)
@@ -660,7 +660,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware
 		}
 	}
 
-	public static final <T> T toJavaObject(JSON json, Class<T> clazz)
+	public static final <T> T toJavaObject(JMJSON json, Class<T> clazz)
 	{
 		return TypeUtils.cast(json, clazz, ParserConfig.global);
 	}

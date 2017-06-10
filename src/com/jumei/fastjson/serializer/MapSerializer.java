@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONObject;
 
 /**
@@ -42,7 +42,7 @@ public final class MapSerializer implements ObjectSerializer
 		Map<?, ?> map = (Map<?, ?>) object;
 		Class<?> mapClass = map.getClass();
 		boolean containsKey = (mapClass == JSONObject.class || mapClass == HashMap.class || mapClass == LinkedHashMap.class)
-				&& map.containsKey(JSON.DEFAULT_TYPE_KEY);
+				&& map.containsKey(JMJSON.DEFAULT_TYPE_KEY);
 
 		if ((out.features & SerializerFeature.SortField.mask) != 0)
 		{
@@ -82,7 +82,7 @@ public final class MapSerializer implements ObjectSerializer
 			{
 				if (!containsKey)
 				{
-					out.writeFieldName(JSON.DEFAULT_TYPE_KEY, false);
+					out.writeFieldName(JMJSON.DEFAULT_TYPE_KEY, false);
 					out.writeString(object.getClass().getName());
 					first = false;
 				}
@@ -140,7 +140,7 @@ public final class MapSerializer implements ObjectSerializer
 					if ((out.features & SerializerFeature.BrowserCompatible.mask) != 0
 							|| (out.features & SerializerFeature.WriteNonStringKeyAsString.mask) != 0)
 					{
-						String strEntryKey = JSON.toJSONString(entryKey);
+						String strEntryKey = JMJSON.toJSONString(entryKey);
 						serializer.write(strEntryKey);
 					}
 					else

@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.parser.DefaultJSONParser;
 import com.jumei.fastjson.parser.Feature;
@@ -65,7 +65,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer
 				else
 				{
 					out.write('{');
-					out.writeFieldName(JSON.DEFAULT_TYPE_KEY, false);
+					out.writeFieldName(JMJSON.DEFAULT_TYPE_KEY, false);
 					serializer.write(object.getClass().getName());
 					out.write(',');
 					out.writeFieldName("val", false);
@@ -92,7 +92,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer
 			DateFormat format = serializer.getDateFormat();
 			if (format == null)
 			{
-				format = new SimpleDateFormat(JSON.DEFFAULT_DATE_FORMAT, serializer.locale);
+				format = new SimpleDateFormat(JMJSON.DEFFAULT_DATE_FORMAT, serializer.locale);
 				format.setTimeZone(serializer.timeZone);
 			}
 			String text = format.format(date);
@@ -223,7 +223,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer
 			{
 				key = lexer.stringVal();
 
-				if (JSON.DEFAULT_TYPE_KEY.equals(key))
+				if (JMJSON.DEFAULT_TYPE_KEY.equals(key))
 				{
 					lexer.nextToken();
 					parser.accept(JSONToken.COLON);

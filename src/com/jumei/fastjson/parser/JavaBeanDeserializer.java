@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.JSONObject;
 import com.jumei.fastjson.parser.DefaultJSONParser.ResolveTask;
@@ -367,7 +367,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object object)
 	{
-		if (type == JSON.class || type == JSONObject.class)
+		if (type == JMJSON.class || type == JSONObject.class)
 		{
 			return (T) parser.parse();
 		}
@@ -677,7 +677,7 @@ public class JavaBeanDeserializer implements ObjectDeserializer
 						return (T) object;
 					}
 
-					if (JSON.DEFAULT_TYPE_KEY == key)
+					if (JMJSON.DEFAULT_TYPE_KEY == key)
 					{
 						lexer.nextTokenWithChar(':');
 						if (lexer.token == JSONToken.LITERAL_STRING)

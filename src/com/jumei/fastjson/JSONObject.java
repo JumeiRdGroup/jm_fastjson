@@ -44,7 +44,7 @@ import com.jumei.fastjson.util.TypeUtils;
  * @author wenshao[szujobs@hotmail.com]
  */
 @SuppressWarnings("serial")
-public class JSONObject extends JSON implements Map<String, Object>, Cloneable, Serializable, InvocationHandler
+public class JSONObject extends JMJSON implements Map<String, Object>, Cloneable, Serializable, InvocationHandler
 {
 
 	private final Map<String, Object>	map;

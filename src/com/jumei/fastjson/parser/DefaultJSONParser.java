@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONArray;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.JSONObject;
@@ -69,7 +69,7 @@ public class DefaultJSONParser implements Closeable
 	public final SymbolTable			symbolTable;
 	public ParserConfig					config;
 
-	private String						dateFormatPattern	= JSON.DEFFAULT_DATE_FORMAT;
+	private String						dateFormatPattern	= JMJSON.DEFFAULT_DATE_FORMAT;
 	private DateFormat					dateFormat;
 
 	public final JSONLexer				lexer;
@@ -119,12 +119,12 @@ public class DefaultJSONParser implements Closeable
 
 	public DefaultJSONParser(String input)
 	{
-		this(input, ParserConfig.global, JSON.DEFAULT_PARSER_FEATURE);
+		this(input, ParserConfig.global, JMJSON.DEFAULT_PARSER_FEATURE);
 	}
 
 	public DefaultJSONParser(final String input, final ParserConfig config)
 	{
-		this(new JSONLexer(input, JSON.DEFAULT_PARSER_FEATURE), config);
+		this(new JSONLexer(input, JMJSON.DEFAULT_PARSER_FEATURE), config);
 	}
 
 	public DefaultJSONParser(final String input, final ParserConfig config, int features)
@@ -323,14 +323,14 @@ public class DefaultJSONParser implements Closeable
 
 				lexer.sp = 0; // lexer.resetStringPosition();
 
-				if (key == JSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
+				if (key == JMJSON.DEFAULT_TYPE_KEY && !lexer.isEnabled(Feature.DisableSpecialKeyDetect))
 				{
 					String typeName = lexer.scanSymbol(symbolTable, '"');
 					Class<?> clazz = TypeUtils.loadClass(typeName, this.config.defaultClassLoader);
 
 					if (clazz == null)
 					{
-						object.put(JSON.DEFAULT_TYPE_KEY, typeName);
+						object.put(JMJSON.DEFAULT_TYPE_KEY, typeName);
 						continue;
 					}
 

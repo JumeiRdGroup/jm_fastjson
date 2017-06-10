@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONArray;
 import com.jumei.fastjson.parser.DefaultJSONParser;
 import com.jumei.fastjson.parser.JSONLexer;
@@ -185,7 +185,7 @@ public final class ArrayCodec implements ObjectSerializer, ObjectDeserializer
 			}
 
 			Object value = parser.parse();
-			return (T) JSON.toJSONString(value).toCharArray();
+			return (T) JMJSON.toJSONString(value).toCharArray();
 		}
 
 		if (token == JSONToken.LITERAL_STRING)

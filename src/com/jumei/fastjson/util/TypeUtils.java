@@ -44,7 +44,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.JSONObject;
 import com.jumei.fastjson.annotation.JSONField;
@@ -299,9 +299,9 @@ public class TypeUtils
 			if (strVal.indexOf('-') != -1)
 			{
 				String format;
-				if (strVal.length() == JSON.DEFFAULT_DATE_FORMAT.length())
+				if (strVal.length() == JMJSON.DEFFAULT_DATE_FORMAT.length())
 				{
-					format = JSON.DEFFAULT_DATE_FORMAT;
+					format = JMJSON.DEFFAULT_DATE_FORMAT;
 				}
 				else if (strVal.length() == 10)
 				{
@@ -316,8 +316,8 @@ public class TypeUtils
 					format = "yyyy-MM-dd HH:mm:ss.SSS";
 				}
 
-				SimpleDateFormat dateFormat = new SimpleDateFormat(format, JSON.defaultLocale);
-				dateFormat.setTimeZone(JSON.defaultTimeZone);
+				SimpleDateFormat dateFormat = new SimpleDateFormat(format, JMJSON.defaultLocale);
+				dateFormat.setTimeZone(JMJSON.defaultTimeZone);
 				try
 				{
 					return (Date) dateFormat.parse(strVal);
@@ -510,7 +510,7 @@ public class TypeUtils
 			}
 
 			Map map = (Map) obj;
-			if (clazz == Object.class && !map.containsKey(JSON.DEFAULT_TYPE_KEY))
+			if (clazz == Object.class && !map.containsKey(JMJSON.DEFAULT_TYPE_KEY))
 			{
 				return (T) obj;
 			}
@@ -617,7 +617,7 @@ public class TypeUtils
 			Calendar calendar;
 			if (clazz == Calendar.class)
 			{
-				calendar = Calendar.getInstance(JSON.defaultTimeZone, JSON.defaultLocale);
+				calendar = Calendar.getInstance(JMJSON.defaultTimeZone, JMJSON.defaultLocale);
 			}
 			else
 			{
@@ -831,7 +831,7 @@ public class TypeUtils
 			}
 
 			{
-				Object iClassObject = map.get(JSON.DEFAULT_TYPE_KEY);
+				Object iClassObject = map.get(JMJSON.DEFAULT_TYPE_KEY);
 				if (iClassObject instanceof String)
 				{
 					String className = (String) iClassObject;

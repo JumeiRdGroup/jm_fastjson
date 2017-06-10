@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 
 public final class JSONLexer
@@ -54,7 +54,7 @@ public final class JSONLexer
 
 	protected int								token;
 	protected int								pos;
-	public int									features		= JSON.DEFAULT_PARSER_FEATURE;
+	public int									features		= JMJSON.DEFAULT_PARSER_FEATURE;
 
 	protected char								ch;
 	protected int								bp;
@@ -74,8 +74,8 @@ public final class JSONLexer
 
 	protected boolean							hasSpecial;
 
-	public TimeZone								timeZone		= JSON.defaultTimeZone;
-	public Locale								locale			= JSON.defaultLocale;
+	public TimeZone								timeZone		= JMJSON.defaultTimeZone;
+	public Locale								locale			= JMJSON.defaultLocale;
 	protected Calendar							calendar		= null;
 
 	public int									matchStat		= UNKNOWN;
@@ -87,12 +87,12 @@ public final class JSONLexer
 
 	public JSONLexer(String input)
 	{
-		this(input, JSON.DEFAULT_PARSER_FEATURE);
+		this(input, JMJSON.DEFAULT_PARSER_FEATURE);
 	}
 
 	public JSONLexer(char[] input, int inputLength)
 	{
-		this(input, inputLength, JSON.DEFAULT_PARSER_FEATURE);
+		this(input, inputLength, JMJSON.DEFAULT_PARSER_FEATURE);
 	}
 
 	public JSONLexer(char[] input, int inputLength, int features)

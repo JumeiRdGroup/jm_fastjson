@@ -22,7 +22,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.annotation.JSONType;
 import com.jumei.fastjson.util.FieldInfo;
@@ -244,7 +244,7 @@ public class JavaBeanSerializer implements ObjectSerializer
 				Class<?> objClass = object.getClass();
 				if (objClass != fieldType)
 				{
-					out.writeFieldName(JSON.DEFAULT_TYPE_KEY, false);
+					out.writeFieldName(JMJSON.DEFAULT_TYPE_KEY, false);
 					serializer.write(object.getClass());
 					commaFlag = true;
 				}

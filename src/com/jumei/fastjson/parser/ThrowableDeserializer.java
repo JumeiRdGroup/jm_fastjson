@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.util.TypeUtils;
 
@@ -79,7 +79,7 @@ public class ThrowableDeserializer extends JavaBeanDeserializer
 
 			lexer.nextTokenWithChar(':');
 
-			if (JSON.DEFAULT_TYPE_KEY.equals(key))
+			if (JMJSON.DEFAULT_TYPE_KEY.equals(key))
 			{
 				if (lexer.token == JSONToken.LITERAL_STRING)
 				{

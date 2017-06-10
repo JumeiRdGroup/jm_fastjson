@@ -12,7 +12,7 @@
  */
 package com.jumei.fastjson.parser;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 
 /**
  * @author wenshao[szujobs@hotmail.com]
@@ -29,7 +29,7 @@ public class SymbolTable
 		this.symbols = new String[tableSize];
 
 		this.addSymbol("$ref", 0, 4, "$ref".hashCode());
-		this.addSymbol(JSON.DEFAULT_TYPE_KEY, 0, JSON.DEFAULT_TYPE_KEY.length(), JSON.DEFAULT_TYPE_KEY.hashCode());
+		this.addSymbol(JMJSON.DEFAULT_TYPE_KEY, 0, JMJSON.DEFAULT_TYPE_KEY.length(), JMJSON.DEFAULT_TYPE_KEY.hashCode());
 	}
 
 	/**

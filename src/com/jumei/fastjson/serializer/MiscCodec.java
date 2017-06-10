@@ -15,7 +15,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONAware;
 import com.jumei.fastjson.JSONException;
 import com.jumei.fastjson.JSONStreamAware;
@@ -106,7 +106,7 @@ public final class MiscCodec implements ObjectSerializer, ObjectDeserializer
 				if (object.getClass() != fieldType)
 				{
 					out.write('{');
-					out.writeFieldName(JSON.DEFAULT_TYPE_KEY, false);
+					out.writeFieldName(JMJSON.DEFAULT_TYPE_KEY, false);
 					serializer.write(object.getClass().getName());
 					out.write(',');
 					out.writeFieldName("val", false);
@@ -436,7 +436,7 @@ public final class MiscCodec implements ObjectSerializer, ObjectDeserializer
 					throw new JSONException("syntax error");
 				}
 			}
-			else if (key == JSON.DEFAULT_TYPE_KEY)
+			else if (key == JMJSON.DEFAULT_TYPE_KEY)
 			{
 				if (lexer.token() == JSONToken.LITERAL_STRING)
 				{

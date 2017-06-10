@@ -41,7 +41,7 @@ import com.jumei.fastjson.util.TypeUtils;
  * @author wenshao[szujobs@hotmail.com]
  */
 @SuppressWarnings("serial")
-public class JSONArray extends JSON implements List<Object>, Cloneable, RandomAccess, Serializable
+public class JSONArray extends JMJSON implements List<Object>, Cloneable, RandomAccess, Serializable
 {
 
 	private final List<Object>	list;

@@ -2,7 +2,7 @@ package com.jumei.fastjson.util;
 
 import java.util.regex.Pattern;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONObject;
 import com.jumei.fastjson.parser.JSONToken;
 
@@ -28,7 +28,7 @@ public class JMUtil
 		if (start == -1 || end == -1)
 			return img;
 
-		JSONObject json = JSON.parseObject(img);
+		JSONObject json = JMJSON.parseObject(img);
 
 		if (json == null)
 			return img;
@@ -44,7 +44,7 @@ public class JMUtil
 			if (isEmpty(key) || !pattern.matcher(key).matches())
 				continue;
 
-			int width = unitPx ? JSON.SCREEN_WIDTH_IN_PX : JSON.SCREEN_WIDTH_IN_DP;
+			int width = unitPx ? JMJSON.SCREEN_WIDTH_IN_PX : JMJSON.SCREEN_WIDTH_IN_DP;
 			if (width == 0)
 			{
 				return img;

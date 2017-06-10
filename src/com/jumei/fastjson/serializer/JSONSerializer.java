@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.jumei.fastjson.JSON;
+import com.jumei.fastjson.JMJSON;
 import com.jumei.fastjson.JSONException;
 
 /**
@@ -52,12 +52,12 @@ public class JSONSerializer
 	protected IdentityHashMap<Object, SerialContext>	references			= null;
 	protected SerialContext								context;
 
-	public TimeZone										timeZone			= JSON.defaultTimeZone;
-	public Locale										locale				= JSON.defaultLocale;
+	public TimeZone										timeZone			= JMJSON.defaultTimeZone;
+	public Locale										locale				= JMJSON.defaultLocale;
 
 	public JSONSerializer()
 	{
-		this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY), SerializeConfig.globalInstance);
+		this(new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY), SerializeConfig.globalInstance);
 	}
 
 	public JSONSerializer(SerializeWriter out)
@@ -67,14 +67,14 @@ public class JSONSerializer
 
 	public JSONSerializer(SerializeConfig config)
 	{
-		this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY), config);
+		this(new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY), config);
 	}
 
 	public JSONSerializer(SerializeWriter out, SerializeConfig config)
 	{
 		this.out = out;
 		this.config = config;
-		this.timeZone = JSON.defaultTimeZone;
+		this.timeZone = JMJSON.defaultTimeZone;
 	}
 
 	public String getDateFormatPattern()
@@ -270,7 +270,7 @@ public class JSONSerializer
 
 	public static final void write(Writer out, Object object)
 	{
-		SerializeWriter writer = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
+		SerializeWriter writer = new SerializeWriter((Writer) null, JMJSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY);
 		try
 		{
 			JSONSerializer serializer = new JSONSerializer(writer, SerializeConfig.globalInstance);
@@ -405,7 +405,7 @@ public class JSONSerializer
 		{
 			if (key != null && !(key instanceof String))
 			{
-				key = JSON.toJSONString(key);
+				key = JMJSON.toJSONString(key);
 			}
 			for (ValueFilter valueFilter : valueFilters)
 			{
@@ -423,7 +423,7 @@ public class JSONSerializer
 		{
 			if (key != null && !(key instanceof String))
 			{
-				key = JSON.toJSONString(key);
+				key = JMJSON.toJSONString(key);
 			}
 			for (NameFilter nameFilter : nameFilters)
 			{
@@ -447,7 +447,7 @@ public class JSONSerializer
 		{
 			if (key != null && !(key instanceof String))
 			{
-				key = JSON.toJSONString(key);
+				key = JMJSON.toJSONString(key);
 			}
 
 			if (!filter.apply(this, object, (String) key))
@@ -470,7 +470,7 @@ public class JSONSerializer
 
 		if (key != null && !(key instanceof String))
 		{
-			key = JSON.toJSONString(key);
+			key = JMJSON.toJSONString(key);
 		}
 
 		for (PropertyFilter propertyFilter : propertyFilters)
