@@ -193,7 +193,7 @@ public class ParserConfig
 			}
 		}
 
-		if (type instanceof WildcardType || type instanceof TypeVariable || type instanceof ParameterizedType)
+		if (type instanceof WildcardType || type instanceof TypeVariable)
 		{
 			deserializer = derializers.get(clazz);
 		}
