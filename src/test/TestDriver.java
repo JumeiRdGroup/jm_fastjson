@@ -1,7 +1,7 @@
 package test;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.util.JMUtil;
+import com.jumei.fastjson.JMJSON;
+import com.jumei.fastjson.util.JMUtil;
 
 
 /*
@@ -25,7 +25,7 @@ public class TestDriver
 
 	public static void main(String[] args)
 	{
-		RogerRsp p = JSON.parseObject(testCase, RogerRsp.class);
+		RogerRsp p = JMJSON.parseObject(testCase, RogerRsp.class);
 		System.out.println("imgUrl:" + p.imgUrl);
 		System.out.println("data.value:" + p.mData.getValue());
 		String s = JMUtil.parseImageJson(url, false);

@@ -2,8 +2,8 @@ package test;
 
 import java.util.ArrayList;
 
-import com.alibaba.fastjson.annotation.JMIMG;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.jumei.fastjson.annotation.JMIMG;
+import com.jumei.fastjson.annotation.JSONField;
 
 
 
